@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  grid-gap: 0.4em;
   margin: 1em 2em;
 `;
 
@@ -11,12 +12,18 @@ const Button = styled.button`
   margin: 0.25em;
   padding: 0.25em 1em;
   font-size: 1em;
-  background: #3949ab;
-  color: white;
-  border-radius: 3px;
+  color: black;
+  border-radius: 5px;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
   text-align: left;
   :hover {
-    background: #283593;
+    background: #eeeeee;
+  }
+  :focus {
+    outline: none;
+  }
+  :active {
+    transform: scale(1.05);
   }
 `;
 
@@ -58,12 +65,7 @@ const SectionSearch = props => {
       </Button>
     );
   });
-  return (
-    <React.Fragment>
-      <h2>Welcome to the NYT Searcher</h2>
-      <Container>{renderedList}</Container>;
-    </React.Fragment>
-  );
+  return <Container>{renderedList}</Container>;
 };
 
 export default SectionSearch;

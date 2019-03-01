@@ -7,14 +7,20 @@ class App extends React.Component {
   };
 
   handleClick = key => {
-    console.log(key);
     this.setState({
       section: key
     });
   };
 
   render() {
-    return <SectionSearch onClick={this.handleClick} />;
+    return (
+      <div className="wrapper">
+        <img src="/images/nyt-logo.png" alt="" />
+        <h2>Today Top Stories</h2>
+        <p>What section are you interested in?</p>
+        <SectionSearch onClick={this.handleClick} />
+      </div>
+    );
   }
 }
 
