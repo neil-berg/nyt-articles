@@ -15,7 +15,7 @@ const SubHeader = styled.h3`
 
 const ListContainer = styled.ul`
   display: grid;
-  grid-template-columns: repeat(auto-fit, 185px);
+  grid-template-columns: repeat(auto-fit, 200px);
   grid-gap: 0.4em;
   margin: 1em 2em;
   padding: 0;
@@ -29,10 +29,11 @@ const ListItem = styled.li`
   font-size: 1em;
   border: 1px rgba(0, 0, 0, 0.2) solid;
   border-radius: 5px;
-  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
   text-align: left;
+  transition: 0.3s;
   :hover {
-    background: #eeeeee;
+    box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.2);
   }
   :focus {
     outline: none;

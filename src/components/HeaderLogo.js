@@ -13,7 +13,7 @@ const Container = styled.div`
   }
 `;
 
-const Header = () => {
+const HeaderLogo = () => {
   return (
     <Container>
       <img src="/images/nyt-logo.svg" alt="" />
@@ -21,4 +21,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderLogo;
