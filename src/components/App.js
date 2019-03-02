@@ -14,6 +14,10 @@ class App extends React.Component {
     stories: []
   };
 
+  // componentDidMount() {
+  //   this.fetchArticles(this.state.section, this.state.label);
+  // }
+
   fetchArticles = async (section, label) => {
     const url = `https://api.nytimes.com/svc/topstories/v2/${section}.json?api-key=${KEY}`;
     const response = await fetch(url);
