@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { hoursAgo } from '../helpers';
 
 const Title = styled.h1`
   text-align: center;
@@ -41,7 +42,7 @@ const StoryItem = styled.div`
   }
   p:nth-child(3) {
     grid-area: dateURL;
-    font-size: 0.6em;
+    font-size: 0.65em;
     color: grey;
   }
   p:nth-child(4) {
@@ -49,8 +50,17 @@ const StoryItem = styled.div`
     font-size: 0.75em;
   }
   a {
-    grid-area: url;
-    font-size: 0.75em;
+    font-size: 1em;
+    color: grey;
+    text-decoration: none;
+    margin: 0;
+    border-bottom: 1px solid grey;
+    padding: 0 0 2px 0;
+    transition: all 0.3s;
+  }
+  a:hover {
+    color: black;
+    border-bottom: 1px solid black;
   }
   img {
     grid-area: image;
@@ -64,12 +74,20 @@ const StoryItem = styled.div`
 
 const SectionStories = ({ label, stories }) => {
   const renderedList = stories.map(story => {
+    let dateStr = '';
+    const numHours = hoursAgo(story.published_date);
+    if (numHours > 24) {
+      const numDays = Math.ceil(numHours / 24);
+      dateStr = numDays > 1 ? `${numDays} days ago` : '1 day ago';
+    } else {
+      dateStr = `${numHours} hours ago`;
+    }
     return (
       <StoryItem key={story.title}>
         <p>{story.byline.replace(/by/gi, '').trim()}</p>
         <p>{story.title}</p>
         <p>
-          {story.published_date} | <a href={story.url}>Read story</a>
+          {dateStr} | <a href={story.url}>Read full story</a>
         </p>
         <p>{story.abstract}</p>
         <img src={story.multimedia[1] ? story.multimedia[1].url : ''} alt="" />
