@@ -1,14 +1,18 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
+import { sections } from '../SectionsArray';
 import { hoursAgo } from '../helpers';
 
 const Title = styled.h1`
   text-align: center;
+  font-size: 1.75em;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.2);
 `;
 
 const StoryWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, 400px);
+  grid-template-columns: repeat(auto-fit, minmax(350px, 400px));
   grid-gap: 1em;
   justify-content: center;
 `;
@@ -72,34 +76,61 @@ const StoryItem = styled.div`
   }
 `;
 
-const SectionStories = ({ label, stories }) => {
-  const renderedList = stories.map(story => {
-    let dateStr = '';
-    const numHours = hoursAgo(story.published_date);
-    if (numHours > 24) {
-      const numDays = Math.ceil(numHours / 24);
-      dateStr = numDays > 1 ? `${numDays} days ago` : '1 day ago';
-    } else {
-      dateStr = `${numHours} hours ago`;
+class SectionStories extends React.Component {
+  state = {
+    backToSearch: false
+  };
+
+  handleBackClick = e => {
+    this.setState({ backToSearch: true });
+  };
+
+  render() {
+    const { section, label, stories, handleNextClick } = this.props;
+    const currentIndex = sections.findIndex(item => item.section === section);
+    const nextIndex = currentIndex < sections.length - 1 ? currentIndex + 1 : 0;
+    const nextSection = sections[nextIndex].section;
+    const nextLabel = sections[nextIndex].label;
+    // console.log(currentIndex, sections.length, { nextSection, nextLabel });
+
+    const renderedList = stories.map(story => {
+      let dateStr = '';
+      const numHours = hoursAgo(story.published_date);
+      if (numHours > 24) {
+        const numDays = Math.ceil(numHours / 24);
+        dateStr = numDays > 1 ? `${numDays} days ago` : '1 day ago';
+      } else {
+        dateStr = `${numHours} hours ago`;
+      }
+      return (
+        <StoryItem key={story.title}>
+          <p>{story.byline.replace(/by/gi, '').trim()}</p>
+          <p>{story.title}</p>
+          <p>
+            {dateStr} | <a href={story.url}>Read full story</a>
+          </p>
+          <p>{story.abstract}</p>
+          <img
+            src={story.multimedia[1] ? story.multimedia[1].url : ''}
+            alt=""
+          />
+        </StoryItem>
+      );
+    });
+    if (this.state.backToSearch) {
+      return <Redirect push to="/topstories" />;
     }
     return (
-      <StoryItem key={story.title}>
-        <p>{story.byline.replace(/by/gi, '').trim()}</p>
-        <p>{story.title}</p>
-        <p>
-          {dateStr} | <a href={story.url}>Read full story</a>
-        </p>
-        <p>{story.abstract}</p>
-        <img src={story.multimedia[1] ? story.multimedia[1].url : ''} alt="" />
-      </StoryItem>
+      <div>
+        <Title>{label}</Title>
+        <button onClick={this.handleBackClick}>Select New Section</button>
+        <button onClick={() => handleNextClick(nextSection, nextLabel)}>
+          Next section
+        </button>
+        <StoryWrapper>{renderedList}</StoryWrapper>
+      </div>
     );
-  });
-  return (
-    <div>
-      <Title>Top stories for {label}</Title>
-      <StoryWrapper>{renderedList}</StoryWrapper>
-    </div>
-  );
-};
+  }
+}
 
 export default SectionStories;

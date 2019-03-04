@@ -25,19 +25,27 @@ class App extends React.Component {
   }
 
   fetchArticles = async (section, label) => {
-    // Clear state, allowing a spinner to display before articles load
-    this.setState({ isLoading: true });
+    // Show spinner while articles load articles load
+    this.setState({ section, label, isLoading: true });
 
+    // Await the fetched articles
     const url = `https://api.nytimes.com/svc/topstories/v2/${section}.json?api-key=${KEY}`;
     const response = await fetch(url);
     const json = await response.json();
     const stories = await json.results.slice(0, 5);
-    this.setState({ section, label, stories, isLoading: false });
+
+    // Load stories in state, stop spinner, and show stories
+    this.setState({ stories, isLoading: false });
+
     // Retain user selection for local persistence
     localStorage.setItem(
       'nytdata',
       JSON.stringify({ section: this.state.section, label: this.state.label })
     );
+  };
+
+  handleNextClick = (nextSection, nextLabel) => {
+    this.fetchArticles(nextSection, nextLabel);
   };
 
   render() {
@@ -63,8 +71,10 @@ class App extends React.Component {
                 ) : (
                   <SectionStories
                     {...props}
+                    section={this.state.section}
                     label={this.state.label}
                     stories={this.state.stories}
+                    handleNextClick={this.handleNextClick}
                   />
                 )
               }
