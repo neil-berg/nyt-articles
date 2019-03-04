@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { sections } from '../SectionsArray';
 
-const Header = styled.h1`
+const Title = styled.h1`
   text-align: center;
   font-size: 1.5em;
 `;
@@ -14,7 +14,7 @@ const SubHeader = styled.h3`
   font-size: 1em;
 `;
 
-const ListContainer = styled.ul`
+const SectionContainer = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fit, 200px);
   grid-gap: 0.4em;
@@ -23,7 +23,7 @@ const ListContainer = styled.ul`
   justify-content: center;
 `;
 
-const ListItem = styled.li`
+const SectionItem = styled.li`
   list-style-type: none;
   margin: 0.25em;
   padding: 0;
@@ -56,19 +56,19 @@ const SectionSearch = props => {
   const renderedList = sections.map(item => {
     const { label, section } = { ...item };
     return (
-      <ListItem
+      <SectionItem
         key={section}
         onClick={() => props.fetchArticles(section, label)}
       >
         <Link to={`/topstories/${section}`}>{label}</Link>
-      </ListItem>
+      </SectionItem>
     );
   });
   return (
     <React.Fragment>
-      <Header>Top Stories</Header>
+      <Title>Top Stories</Title>
       <SubHeader> Select a section to begin</SubHeader>
-      <ListContainer>{renderedList}</ListContainer>
+      <SectionContainer>{renderedList}</SectionContainer>
     </React.Fragment>
   );
 };

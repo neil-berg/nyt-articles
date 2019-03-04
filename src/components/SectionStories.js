@@ -2,18 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import NavBar from './NavBar';
 import { sections } from '../SectionsArray';
 import { hoursAgo } from '../helpers';
 
-const ListContainer = styled.ul`
-  display: flex;
-  justify-content: center;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-`;
+// const NavContainer = styled.ul`
+//   display: flex;
+//   justify-content: center;
+//   list-style-type: none;
+//   margin: 0;
+//   padding: 0;
+// `;
 
-const ListItem = styled.li`
+const NavItem = styled.li`
   margin: 1em 0.5em 0.5em 0.5em;
   padding: 0;
   font-size: 0.8em;
@@ -145,14 +146,14 @@ const SectionStories = ({ section, label, stories, handleNextClick }) => {
 
   return (
     <div>
-      <ListContainer>
-        <ListItem>
+      <NavBar>
+        <NavItem>
           <Link to="/topstories">⬅️ New Search</Link>
-        </ListItem>
-        <ListItem onClick={() => handleNextClick(nextSection, nextLabel)}>
+        </NavItem>
+        <NavItem onClick={() => handleNextClick(nextSection, nextLabel)}>
           <Link to={`/topstories/${nextSection}`}>Next Section ➡️ </Link>
-        </ListItem>
-      </ListContainer>
+        </NavItem>
+      </NavBar>
       <Title>{label}</Title>
       <StoryWrapper>{renderedList}</StoryWrapper>
     </div>
