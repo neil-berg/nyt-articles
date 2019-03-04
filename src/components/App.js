@@ -32,7 +32,7 @@ class App extends React.Component {
     const url = `https://api.nytimes.com/svc/topstories/v2/${section}.json?api-key=${KEY}`;
     const response = await fetch(url);
     const json = await response.json();
-    const stories = await json.results.slice(0, 5);
+    const stories = await json.results.slice(0, 9);
 
     // Load stories in state, stop spinner, and show stories
     this.setState({ stories, isLoading: false });
@@ -64,7 +64,7 @@ class App extends React.Component {
             />
             <Route
               exact
-              path="/topstories/:section"
+              path={`/topstories/${this.state.section}`}
               render={props =>
                 this.state.isLoading ? (
                   <Spinner />

@@ -1,8 +1,44 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { sections } from '../SectionsArray';
 import { hoursAgo } from '../helpers';
+
+const ListContainer = styled.ul`
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+`;
+
+const ListItem = styled.li`
+  margin: 1em 0.5em 0.5em 0.5em;
+  padding: 0;
+  font-size: 0.8em;
+  border: 1px rgba(0, 0, 0, 0.2) solid;
+  border-radius: 5px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  :hover {
+    box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  :focus {
+    outline: none;
+  }
+  :active {
+    transform: scale(1.05);
+  }
+
+  a {
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    padding: 0.25em 1em;
+    display: block;
+  }
+`;
 
 const Title = styled.h1`
   text-align: center;
@@ -12,7 +48,7 @@ const Title = styled.h1`
 
 const StoryWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 400px));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
   grid-gap: 1em;
   justify-content: center;
 `;
@@ -76,61 +112,57 @@ const StoryItem = styled.div`
   }
 `;
 
-class SectionStories extends React.Component {
-  state = {
-    backToSearch: false
-  };
+const SectionStories = ({ section, label, stories, handleNextClick }) => {
+  const currentIndex = sections.findIndex(item => item.section === section);
+  const nextIndex = currentIndex < sections.length - 1 ? currentIndex + 1 : 0;
+  const { section: nextSection, label: nextLabel } = sections[nextIndex];
 
-  handleBackClick = e => {
-    this.setState({ backToSearch: true });
-  };
-
-  render() {
-    const { section, label, stories, handleNextClick } = this.props;
-    const currentIndex = sections.findIndex(item => item.section === section);
-    const nextIndex = currentIndex < sections.length - 1 ? currentIndex + 1 : 0;
-    const nextSection = sections[nextIndex].section;
-    const nextLabel = sections[nextIndex].label;
-    // console.log(currentIndex, sections.length, { nextSection, nextLabel });
-
-    const renderedList = stories.map(story => {
-      let dateStr = '';
-      const numHours = hoursAgo(story.published_date);
-      if (numHours > 24) {
-        const numDays = Math.ceil(numHours / 24);
-        dateStr = numDays > 1 ? `${numDays} days ago` : '1 day ago';
-      } else {
-        dateStr = `${numHours} hours ago`;
-      }
-      return (
-        <StoryItem key={story.title}>
-          <p>{story.byline.replace(/by/gi, '').trim()}</p>
-          <p>{story.title}</p>
-          <p>
-            {dateStr} | <a href={story.url}>Read full story</a>
-          </p>
-          <p>{story.abstract}</p>
-          <img
-            src={story.multimedia[1] ? story.multimedia[1].url : ''}
-            alt=""
-          />
-        </StoryItem>
-      );
-    });
-    if (this.state.backToSearch) {
-      return <Redirect push to="/topstories" />;
+  const renderedList = stories.map(story => {
+    let dateStr = '';
+    const numHours = hoursAgo(story.published_date);
+    if (numHours > 24) {
+      const numDays = Math.ceil(numHours / 24);
+      dateStr = numDays > 1 ? `${numDays} days ago` : '1 day ago';
+    } else {
+      dateStr = `${numHours} hours ago`;
     }
     return (
-      <div>
-        <Title>{label}</Title>
-        <button onClick={this.handleBackClick}>Select New Section</button>
-        <button onClick={() => handleNextClick(nextSection, nextLabel)}>
-          Next section
-        </button>
-        <StoryWrapper>{renderedList}</StoryWrapper>
-      </div>
+      <StoryItem key={story.title}>
+        <p>{story.byline.replace(/by/gi, '').trim()}</p>
+        <p>{story.title}</p>
+        <p>
+          {dateStr} |{' '}
+          <a href={story.url} target="_blank" rel="noopener noreferrer">
+            Read full story
+          </a>
+        </p>
+        <p>{story.abstract}</p>
+        <img src={story.multimedia[1] ? story.multimedia[1].url : ''} alt="" />
+      </StoryItem>
     );
-  }
-}
+  });
+
+  return (
+    <div>
+      <ListContainer>
+        <ListItem>
+          <Link to="/topstories">⬅️ New Search</Link>
+        </ListItem>
+        <ListItem onClick={() => handleNextClick(nextSection, nextLabel)}>
+          <Link to={`/topstories/${nextSection}`}>Next Section ➡️ </Link>
+        </ListItem>
+      </ListContainer>
+      <Title>{label}</Title>
+      <StoryWrapper>{renderedList}</StoryWrapper>
+    </div>
+  );
+};
+
+SectionStories.propTypes = {
+  section: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  stories: PropTypes.array.isRequired,
+  handleNextClick: PropTypes.func.isRequired
+};
 
 export default SectionStories;
