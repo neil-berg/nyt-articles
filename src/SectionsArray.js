@@ -17,7 +17,7 @@ export const sections = [
   { label: '🏘️ Real Estate', section: 'realestate' },
   { label: '🔬 Science', section: 'science' },
   { label: '🏅 Sports', section: 'sports' },
-  { label: '🏅 Sunday Review', section: 'sundayreview' },
+  { label: '🔎 Sunday Review', section: 'sundayreview' },
   { label: '📱 Technology', section: 'technology' },
   { label: '🎭 Theater', section: 'theater' },
   { label: '✈️ Travel', section: 'travel' },
