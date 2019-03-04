@@ -125,7 +125,7 @@ const SectionStories = ({ section, label, stories, handleNextClick }) => {
       const numDays = Math.ceil(numHours / 24);
       dateStr = numDays > 1 ? `${numDays} days ago` : '1 day ago';
     } else {
-      dateStr = `${numHours} hours ago`;
+      dateStr = numHours > 1 ? `${numHours} hours ago` : '1 hour ago';
     }
     return (
       <StoryItem key={story.title}>
