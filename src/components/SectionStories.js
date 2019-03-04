@@ -114,6 +114,7 @@ const StoryItem = styled.div`
 
 const SectionStories = ({ section, label, stories, handleNextClick }) => {
   const currentIndex = sections.findIndex(item => item.section === section);
+  // If currently on last section, set the next section to the zeroth index
   const nextIndex = currentIndex < sections.length - 1 ? currentIndex + 1 : 0;
   const { section: nextSection, label: nextLabel } = sections[nextIndex];
 
