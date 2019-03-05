@@ -29,10 +29,10 @@ const Rotate = styled.div`
   animation: ${rotate} 2s linear infinite;
 `;
 
-const Spinner = () => (
+const Spinner = ({ text }) => (
   <SpinnerContainer>
     <Rotate />
-    <p>Loading articles</p>
+    <p>{text}</p>
   </SpinnerContainer>
 );
 

@@ -84,7 +84,7 @@ class App extends React.Component {
               path={`/topstories/${this.state.section}`}
               render={props =>
                 this.state.isLoading ? (
-                  <Spinner />
+                  <Spinner text="Loading articles" />
                 ) : (
                   <SectionStories
                     {...props}
