@@ -14,7 +14,9 @@ class App extends React.Component {
     section: '',
     label: '',
     stories: [],
-    isLoading: false
+    moreStories: [],
+    isLoading: false,
+    showMore: false
   };
 
   componentDidMount() {
@@ -27,16 +29,18 @@ class App extends React.Component {
 
   fetchArticles = async (section, label) => {
     // Show spinner while articles load articles load
-    this.setState({ section, label, isLoading: true });
+    this.setState({ section, label, isLoading: true, showMore: false });
 
     // Await the fetched articles
     const url = `https://api.nytimes.com/svc/topstories/v2/${section}.json?api-key=${KEY}`;
     const response = await fetch(url);
     const json = await response.json();
-    const stories = await json.results.slice(0, 9);
+    const allStories = await json.results;
+    const stories = allStories.slice(0, 10);
+    const moreStories = allStories.slice(10, 20);
 
     // Load stories in state, stop spinner, and show stories
-    this.setState({ stories, isLoading: false });
+    this.setState({ stories, moreStories, isLoading: false });
 
     // Retain user selection for local persistence
     localStorage.setItem(
@@ -45,8 +49,20 @@ class App extends React.Component {
     );
   };
 
-  handleNextClick = (nextSection, nextLabel) => {
+  // Move to the next section by fetching new
+  // articles and updating state with them
+  showNextSection = (nextSection, nextLabel) => {
     this.fetchArticles(nextSection, nextLabel);
+  };
+
+  // Reveal more articles for a given section
+  // by appending 10 more stories in state
+  showMoreStories = e => {
+    e.preventDefault();
+    this.setState(prevState => ({
+      stories: [...prevState.stories, ...prevState.moreStories],
+      showMore: true
+    }));
   };
 
   render() {
@@ -75,7 +91,9 @@ class App extends React.Component {
                     section={this.state.section}
                     label={this.state.label}
                     stories={this.state.stories}
-                    handleNextClick={this.handleNextClick}
+                    showMore={this.state.showMore}
+                    showNextSection={this.showNextSection}
+                    showMoreStories={this.showMoreStories}
                   />
                 )
               }

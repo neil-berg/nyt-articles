@@ -3,43 +3,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import NavBar from './NavBar';
+import NavItem from './NavItem';
 import { sections } from '../SectionsArray';
 import { hoursAgo } from '../helpers';
-
-const NavBar = styled.ul`
-  display: flex;
-  justify-content: center;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-`;
-
-const NavItem = styled.li`
-  margin: 1em 0.5em 0.5em 0.5em;
-  padding: 0;
-  font-size: 0.8em;
-  border: 1px rgba(0, 0, 0, 0.2) solid;
-  border-radius: 5px;
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-  :hover {
-    box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  :focus {
-    outline: none;
-  }
-  :active {
-    transform: scale(1.05);
-  }
-
-  a {
-    color: black;
-    text-align: center;
-    text-decoration: none;
-    padding: 0.25em 1em;
-    display: block;
-  }
-`;
 
 const Title = styled.h1`
   text-align: center;
@@ -113,7 +80,36 @@ const StoryItem = styled.div`
   }
 `;
 
-const SectionStories = ({ section, label, stories, handleNextClick }) => {
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const Button = styled.button`
+  padding: 0.5em 1em;
+  margin: 1em 0;
+  border-radius: 5px;
+  background: #3c3c3c;
+  color: white;
+  font-size: 1em;
+  font-weight: 200;
+  cursor: pointer;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s;
+  :hover,
+  :focus {
+    background: #2a2a2a;
+  }
+`;
+
+const SectionStories = ({
+  section,
+  label,
+  stories,
+  showMore,
+  showNextSection,
+  showMoreStories
+}) => {
   const currentIndex = sections.findIndex(item => item.section === section);
   // If currently on last section, set the next section to the zeroth index
   const nextIndex = currentIndex < sections.length - 1 ? currentIndex + 1 : 0;
@@ -150,12 +146,17 @@ const SectionStories = ({ section, label, stories, handleNextClick }) => {
         <NavItem>
           <Link to="/topstories">⬅️ New Search</Link>
         </NavItem>
-        <NavItem onClick={() => handleNextClick(nextSection, nextLabel)}>
+        <NavItem onClick={() => showNextSection(nextSection, nextLabel)}>
           <Link to={`/topstories/${nextSection}`}>Next Section ➡️ </Link>
         </NavItem>
       </NavBar>
       <Title>{label}</Title>
       <StoryWrapper>{renderedList}</StoryWrapper>
+      <ButtonContainer>
+        {!showMore ? (
+          <Button onClick={showMoreStories}>Show more stories</Button>
+        ) : null}
+      </ButtonContainer>
     </div>
   );
 };
@@ -164,7 +165,8 @@ SectionStories.propTypes = {
   section: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   stories: PropTypes.array.isRequired,
-  handleNextClick: PropTypes.func.isRequired
+  handleNextClick: PropTypes.func.isRequired,
+  showMoreStories: PropTypes.func.isRequired
 };
 
 export default SectionStories;
