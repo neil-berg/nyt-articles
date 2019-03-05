@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
+import NavBar from './NavBar';
+import NavItem from './NavItem';
 import { sections } from '../SectionsArray';
 
 const Title = styled.h1`
@@ -66,6 +69,11 @@ const SectionSearch = props => {
   });
   return (
     <React.Fragment>
+      <NavBar>
+        <NavItem>
+          <Link to="/">Return to home page</Link>
+        </NavItem>
+      </NavBar>
       <Title>Top Stories</Title>
       <SubHeader> Select a section to begin</SubHeader>
       <SectionContainer>{renderedList}</SectionContainer>

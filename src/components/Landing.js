@@ -71,7 +71,9 @@ const Landing = () => {
       <Title>Select an option to begin</Title>
       <ListContainer>
         <ListItem>
-          <h3>Top Stories 🗞️</h3>
+          <h3>
+            Top Stories <span role="img">🗞️</span>
+          </h3>
           <p>
             Quickly scan the most popular stories in Arts, Politics, Business,
             Fashion and more.
@@ -79,12 +81,14 @@ const Landing = () => {
           <Link to="/topstories">Enter</Link>
         </ListItem>
         <ListItem>
-          <h3>Movie Reviews 🍿</h3>
+          <h3>
+            Movie Reviews <span role="img">🍿</span>
+          </h3>
           <p>
             Search for a movie or read what the critics are saying about their
             favorite new releases.{' '}
           </p>
-          <Link to="/moviereviews">Enter</Link>
+          <Link to="/movies">Enter</Link>
         </ListItem>
       </ListContainer>
     </div>

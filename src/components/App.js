@@ -5,6 +5,7 @@ import Landing from './Landing';
 import Spinner from './Spinner';
 import SectionSearch from './SectionSearch';
 import SectionStories from './SectionStories';
+import MovieSearch from './MovieSearch';
 import NotFound from './NotFound';
 import { KEY } from '../apis/nyt';
 
@@ -79,6 +80,7 @@ class App extends React.Component {
                 )
               }
             />
+            <Route exact path="/movies" render={props => <MovieSearch />} />
             <Route component={NotFound} />
           </Switch>
         </Router>

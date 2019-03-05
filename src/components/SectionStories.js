@@ -2,17 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import NavBar from './NavBar';
+
 import { sections } from '../SectionsArray';
 import { hoursAgo } from '../helpers';
 
-// const NavContainer = styled.ul`
-//   display: flex;
-//   justify-content: center;
-//   list-style-type: none;
-//   margin: 0;
-//   padding: 0;
-// `;
+const NavBar = styled.ul`
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+`;
 
 const NavItem = styled.li`
   margin: 1em 0.5em 0.5em 0.5em;
@@ -60,7 +60,7 @@ const StoryItem = styled.div`
   grid-template-areas:
     'author image'
     'title image'
-    'dateURL image '
+    'dateURL image'
     'abstract image';
   border-top: 1px lightgrey solid;
   border-bottom: 1px lightgrey solid;
@@ -70,23 +70,23 @@ const StoryItem = styled.div`
     margin: 0;
     padding: 0.5em 0.5em;
   }
-  p:nth-child(1) {
+  p.byline {
     grid-area: author;
     font-size: 0.65em;
     color: grey;
     font-weight: bold;
   }
-  p:nth-child(2) {
+  p.title {
     grid-area: title;
     font-size: 0.75em;
     font-weight: bold;
   }
-  p:nth-child(3) {
+  p.dateURL {
     grid-area: dateURL;
     font-size: 0.65em;
     color: grey;
   }
-  p:nth-child(4) {
+  p.abstract {
     grid-area: abstract;
     font-size: 0.75em;
   }
@@ -130,15 +130,15 @@ const SectionStories = ({ section, label, stories, handleNextClick }) => {
     }
     return (
       <StoryItem key={story.title}>
-        <p>{story.byline.replace(/by/gi, '').trim()}</p>
-        <p>{story.title}</p>
-        <p>
+        <p className="byline">{story.byline.replace(/by/gi, '').trim()}</p>
+        <p className="title">{story.title}</p>
+        <p className="dateURL">
           {dateStr} |{' '}
           <a href={story.url} target="_blank" rel="noopener noreferrer">
             Read full story
           </a>
         </p>
-        <p>{story.abstract}</p>
+        <p className="abstract">{story.abstract}</p>
         <img src={story.multimedia[1] ? story.multimedia[1].url : ''} alt="" />
       </StoryItem>
     );
