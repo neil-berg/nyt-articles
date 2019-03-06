@@ -5,26 +5,34 @@ import Landing from './Landing';
 import Spinner from './Spinner';
 import SectionSearch from './SectionSearch';
 import SectionStories from './SectionStories';
-import MovieSearch from './MovieSearch';
+import MoviesCriticsPicks from './MoviesCriticsPicks';
+import MoviesUserSearch from './MoviesUserSearch';
 import NotFound from './NotFound';
 import { KEY } from '../apis/nyt';
+import { formatTitle } from '../helpers';
 
 class App extends React.Component {
   state = {
     section: '',
     label: '',
+    movieTitle: '',
     stories: [],
     moreStories: [],
+    criticsPicksMovies: [],
+    userSearchMovies: [],
     isLoading: false,
     showMore: false
   };
 
   componentDidMount() {
     const { section, label } = JSON.parse(localStorage.getItem('nytdata'));
+    // Initial fetch of top stories
     if (section && label) {
       this.setState({ section, label });
       this.fetchArticles(section, label);
     }
+    // Initial fetch of critic's movie picks
+    this.fetchCriticsPicksMovies();
   }
 
   fetchArticles = async (section, label) => {
@@ -47,6 +55,26 @@ class App extends React.Component {
       'nytdata',
       JSON.stringify({ section: this.state.section, label: this.state.label })
     );
+  };
+
+  fetchCriticsPicksMovies = async () => {
+    const url = `https://api.nytimes.com/svc/movies/v2/reviews/picks.json?&api-key=${KEY}`;
+    const response = await fetch(url);
+    const json = await response.json();
+    const criticsPicksMovies = await json.results;
+    this.setState({ criticsPicksMovies, isLoading: false });
+  };
+
+  fetchUserSearchMovies = async (e, title) => {
+    e.preventDefault();
+    this.setState({ movieTitle: title, isLoading: true });
+    const formattedTitle = formatTitle(title);
+    const url = `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${formattedTitle}&api-key=${KEY}`;
+    console.log(url);
+    const response = await fetch(url);
+    const json = await response.json();
+    const userSearchMovies = await json.results;
+    this.setState({ userSearchMovies, isLoading: false });
   };
 
   // Move to the next section by fetching new
@@ -98,7 +126,41 @@ class App extends React.Component {
                 )
               }
             />
-            <Route exact path="/movies" render={props => <MovieSearch />} />
+            <Route
+              exact
+              path="/movies/criticspicks"
+              render={props => (
+                <MoviesCriticsPicks
+                  {...props}
+                  isLoading={this.state.isLoading}
+                  movies={this.state.criticsPicksMovies}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/movies/search/"
+              render={props => (
+                <MoviesUserSearch
+                  {...props}
+                  isLoading={this.state.isLoading}
+                  fetchUserSearchMovies={this.fetchUserSearchMovies}
+                  movies={this.state.userSearchMovies}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={`/movies/search/${formatTitle(this.state.movieTitle)}`}
+              render={props => (
+                <MoviesUserSearch
+                  {...props}
+                  isLoading={this.state.isLoading}
+                  fetchUserSearchMovies={this.fetchUserSearchMovies}
+                  movies={this.state.userSearchMovies}
+                />
+              )}
+            />
             <Route component={NotFound} />
           </Switch>
         </Router>

@@ -82,13 +82,19 @@ const Landing = () => {
         </ListItem>
         <ListItem>
           <h3>
-            Movie Reviews <span role="img">🍿</span>
+            Critic's Picks of Movies <span role="img">🍿</span>
           </h3>
           <p>
-            Search for a movie or read what the critics are saying about their
-            favorite new releases.{' '}
+            Read what the critics are saying about their favorite new releases.{' '}
           </p>
-          <Link to="/movies">Enter</Link>
+          <Link to="/movies/criticspicks">Enter</Link>
+        </ListItem>
+        <ListItem>
+          <h3>
+            Archive of Movie Reviews <span role="img">🍿</span>
+          </h3>
+          <p>Search the review archives for a movie you are interested in. </p>
+          <Link to="/movies/search">Enter</Link>
         </ListItem>
       </ListContainer>
     </div>

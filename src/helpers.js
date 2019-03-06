@@ -3,3 +3,11 @@ export function hoursAgo(date) {
   const hours = Math.ceil(milliseconds / 3600000);
   return hours;
 }
+
+export function formatTitle(title) {
+  const formattedTitle = title
+    .replace(/the/i, '')
+    .replace(/\s/, '')
+    .toLowerCase();
+  return formattedTitle;
+}
