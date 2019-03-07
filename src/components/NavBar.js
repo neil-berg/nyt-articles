@@ -5,28 +5,32 @@ import styled from 'styled-components';
 const StyledUL = styled.ul`
   display: flex;
   align-items: center;
+  justify-content: center;
   margin: 0;
-  padding: 1em;
+  padding: 0.45em 0;
   list-style-type: none;
+  border-bottom: 1px lightgrey solid;
 `;
 
 const StyledLI = styled.li`
-  flex: 1;
-  margin: 0 0.25em;
+  margin: 0.25em;
   padding: 0;
   text-align: center;
+  border: 1px lightgrey solid;
+  border-radius: 3px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
 
   a {
     text-decoration: none;
     color: black;
     text-align: center;
     display: block;
-    padding-bottom: 0.25em;
-    border-bottom: 2px white solid;
+    padding: 0.25em 1em;
+    transition: all 0.3s;
   }
 
   a:hover {
-    border-bottom: 2px grey solid;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
   }
 `;
 

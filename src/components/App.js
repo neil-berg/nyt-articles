@@ -95,10 +95,8 @@ class App extends React.Component {
       <Router>
         <div>
           <NavBar />
-          <hr />
           <Route exact path="/" component={Home} />
           <Route exact path="/topstories" component={TopStories} />
-          <Route path={`${match.path}/:sectionId`} component={Section} />
         </div>
       </Router>
     );
