@@ -5,7 +5,7 @@ import TopStories from './TopStories';
 import NavBar from './NavBar';
 import Home from './Home';
 // import TopStoriesSearch from './TopStoriesSearch';
-// import { KEY } from '../apis/nyt';
+import { KEY } from '../apis/nyt';
 // import { formatTitle } from '../helpers';
 
 class App extends React.Component {
@@ -32,27 +32,27 @@ class App extends React.Component {
   //   this.fetchCriticsPicksMovies();
   // }
 
-  // fetchTopStories = async (section, label) => {
-  //   // Show spinner while articles load articles load
-  //   this.setState({ section, label, isLoading: true, showMore: false });
+  fetchTopStories = async (section, label) => {
+    // Show spinner while articles load articles load
+    this.setState({ section, label, isLoading: true, showMore: false });
 
-  //   // Await the fetched articles
-  //   const url = `https://api.nytimes.com/svc/topstories/v2/${section}.json?api-key=${KEY}`;
-  //   const response = await fetch(url);
-  //   const json = await response.json();
-  //   const allStories = await json.results;
-  //   const stories = allStories.slice(0, 10);
-  //   const moreStories = allStories.slice(10, 20);
+    // Await the fetched articles
+    const url = `https://api.nytimes.com/svc/topstories/v2/${section}.json?api-key=${KEY}`;
+    const response = await fetch(url);
+    const json = await response.json();
+    const allStories = await json.results;
+    const stories = allStories.slice(0, 10);
+    const moreStories = allStories.slice(10, 20);
 
-  //   // Load stories in state, stop spinner, and show stories
-  //   this.setState({ stories, moreStories, isLoading: false });
+    // Load stories in state, stop spinner, and show stories
+    this.setState({ stories, moreStories, isLoading: false });
 
-  //   // Retain user selection for local persistence
-  //   localStorage.setItem(
-  //     'nytdata',
-  //     JSON.stringify({ section: this.state.section, label: this.state.label })
-  //   );
-  // };
+    // Retain user selection for local persistence
+    localStorage.setItem(
+      'nytdata',
+      JSON.stringify({ section: this.state.section, label: this.state.label })
+    );
+  };
 
   // fetchCriticsPicksMovies = async () => {
   //   const url = `https://api.nytimes.com/svc/movies/v2/reviews/picks.json?&api-key=${KEY}`;
@@ -96,7 +96,12 @@ class App extends React.Component {
         <div>
           <NavBar />
           <Route exact path="/" component={Home} />
-          <Route exact path="/topstories" component={TopStories} />
+          <Route
+            path="/topstories"
+            render={props => (
+              <TopStories {...props} fetchTopStories={this.fetchTopStories} />
+            )}
+          />
         </div>
       </Router>
     );

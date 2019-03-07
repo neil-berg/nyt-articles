@@ -20,9 +20,9 @@ class MenuSections extends React.Component {
   render() {
     return (
       <Menu isOpen={true} width={'200px'}>
-        <button id="arts" className="menu-item">
+        <Link to="/topstories/arts" id="arts" className="menu-item">
           Arts
-        </button>
+        </Link>
         <a id="about" className="menu-item" href="/about">
           About
         </a>
