@@ -1,6 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
+import SectionSearch from './SectionSearch';
+import MoviesCriticsPicks from './MoviesCriticsPicks';
+import MoviesUserSearch from './MoviesUserSearch';
 
 const Title = styled.h1`
   font-size: 1.5em;
@@ -67,37 +70,47 @@ const ListItem = styled.li`
 
 const Landing = () => {
   return (
-    <div className="wrapper">
-      <Title>Select an option to begin</Title>
-      <ListContainer>
-        <ListItem>
-          <h3>
-            Top Stories <span role="img">🗞️</span>
-          </h3>
-          <p>
-            Quickly scan the most popular stories in Arts, Politics, Business,
-            Fashion and more.
-          </p>
-          <Link to="/topstories">Enter</Link>
-        </ListItem>
-        <ListItem>
-          <h3>
-            Critic's Picks of Movies <span role="img">🍿</span>
-          </h3>
-          <p>
-            Read what the critics are saying about their favorite new releases.{' '}
-          </p>
-          <Link to="/movies/criticspicks">Enter</Link>
-        </ListItem>
-        <ListItem>
-          <h3>
-            Archive of Movie Reviews <span role="img">🍿</span>
-          </h3>
-          <p>Search the review archives for a movie you are interested in. </p>
-          <Link to="/movies/search">Enter</Link>
-        </ListItem>
-      </ListContainer>
-    </div>
+    <Router>
+      <div className="wrapper">
+        <Title>Select an option to begin</Title>
+        <ListContainer>
+          <ListItem>
+            <h3>
+              Top Stories <span role="img">🗞️</span>
+            </h3>
+            <p>
+              Quickly scan the most popular stories in Arts, Politics, Business,
+              Fashion and more.
+            </p>
+            <Link to="/topstories">Enter</Link>
+          </ListItem>
+          <ListItem>
+            <h3>
+              Critic's Picks of Movies <span role="img">🍿</span>
+            </h3>
+            <p>
+              Read what the critics are saying about their favorite new
+              releases.{' '}
+            </p>
+            <Link to="/movies/criticspicks">Enter</Link>
+          </ListItem>
+          <ListItem>
+            <h3>
+              Archive of Movie Reviews <span role="img">🍿</span>
+            </h3>
+            <p>
+              Search the review archives for a movie you are interested in.{' '}
+            </p>
+            <Link to="/movies/search">Enter</Link>
+          </ListItem>
+        </ListContainer>
+        <Switch>
+          <Route exact path="/topstories" component={SectionSearch} />
+          <Route path="/movies/criticspicks" component={MoviesCriticsPicks} />
+          <Route path="/movies/search" component={MoviesUserSearch} />
+        </Switch>
+      </div>
+    </Router>
   );
 };
 

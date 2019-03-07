@@ -1,10 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import NavBar from './NavBar';
-import NavItem from './NavItem';
+import Topic from './Topic';
 import { sections } from '../SectionsArray';
 
 const Title = styled.h1`
@@ -55,34 +54,30 @@ const SectionItem = styled.li`
   }
 `;
 
-const SectionSearch = props => {
+const TopStoriesSearch = ({ match, fetchTopStories }) => {
   const renderedList = sections.map(item => {
     const { label, section } = { ...item };
     return (
       <SectionItem
         key={section}
-        onClick={() => props.fetchArticles(section, label)}
+        onClick={() => fetchTopStories(section, label)}
       >
-        <Link to={`/topstories/${section}`}>{label}</Link>
+        <Link to={`${match.url}/${section}`}>{label}</Link>
       </SectionItem>
     );
   });
   return (
     <React.Fragment>
-      <NavBar>
-        <NavItem>
-          <Link to="/">Return to home page</Link>
-        </NavItem>
-      </NavBar>
       <Title>Top Stories</Title>
       <SubHeader> Select a section to begin</SubHeader>
       <SectionContainer>{renderedList}</SectionContainer>
+      <Route path={`${match.path}/:topicId`} component={Topic} />
     </React.Fragment>
   );
 };
 
-SectionSearch.propTypes = {
-  fetchArticles: PropTypes.func.isRequired
-};
+// SectionSearch.propTypes = {
+//   fetchArticles: PropTypes.func.isRequired
+// };
 
-export default SectionSearch;
+export default TopStoriesSearch;

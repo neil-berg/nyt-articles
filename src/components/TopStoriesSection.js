@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -102,7 +102,7 @@ const Button = styled.button`
   }
 `;
 
-const SectionStories = ({
+const TopStoriesSection = ({
   section,
   label,
   stories,
@@ -142,14 +142,11 @@ const SectionStories = ({
 
   return (
     <div>
-      <NavBar>
-        <NavItem>
-          <Link to="/topstories">⬅️ New Search</Link>
-        </NavItem>
+      {/* <NavBar>
         <NavItem onClick={() => showNextSection(nextSection, nextLabel)}>
           <Link to={`/topstories/${nextSection}`}>Next Section ➡️ </Link>
         </NavItem>
-      </NavBar>
+      </NavBar> */}
       <Title>{label}</Title>
       <StoryWrapper>{renderedList}</StoryWrapper>
       <ButtonContainer>
@@ -161,12 +158,12 @@ const SectionStories = ({
   );
 };
 
-SectionStories.propTypes = {
-  section: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  stories: PropTypes.array.isRequired,
-  handleNextClick: PropTypes.func.isRequired,
-  showMoreStories: PropTypes.func.isRequired
-};
+// SectionStories.propTypes = {
+//   section: PropTypes.string.isRequired,
+//   label: PropTypes.string.isRequired,
+//   stories: PropTypes.array.isRequired,
+//   handleNextClick: PropTypes.func.isRequired,
+//   showMoreStories: PropTypes.func.isRequired
+// };
 
-export default SectionStories;
+export default TopStoriesSection;
