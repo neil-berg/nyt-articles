@@ -3,6 +3,7 @@ import { Route, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import MenuSections from './MenuSections';
 import Topic from './Topic';
 import { sections } from '../SectionsArray';
 
@@ -55,22 +56,23 @@ const SectionItem = styled.li`
 `;
 
 const TopStoriesSearch = ({ match, fetchTopStories }) => {
-  const renderedList = sections.map(item => {
-    const { label, section } = { ...item };
-    return (
-      <SectionItem
-        key={section}
-        onClick={() => fetchTopStories(section, label)}
-      >
-        <Link to={`${match.url}/${section}`}>{label}</Link>
-      </SectionItem>
-    );
-  });
+  // const renderedList = sections.map(item => {
+  //   const { label, section } = { ...item };
+  //   return (
+  //     <SectionItem
+  //       key={section}
+  //       onClick={() => fetchTopStories(section, label)}
+  //     >
+  //       <Link to={`${match.url}/${section}`}>{label}</Link>
+  //     </SectionItem>
+  //   );
+  // });
   return (
     <React.Fragment>
       <Title>Top Stories</Title>
       <SubHeader> Select a section to begin</SubHeader>
-      <SectionContainer>{renderedList}</SectionContainer>
+      <MenuSections />
+      {/* <SectionContainer>{renderedList}</SectionContainer> */}
       <Route path={`${match.path}/:topicId`} component={Topic} />
     </React.Fragment>
   );

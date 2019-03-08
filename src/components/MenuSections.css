@@ -1,10 +1,10 @@
 /* Position and sizing of burger button */
 .bm-burger-button {
-  position: fixed;
+  position: relative;
   width: 36px;
   height: 30px;
   left: 36px;
-  top: 65px;
+  top: 15px;
 }
 
 /* Color/shape of burger icon bars */
@@ -21,6 +21,7 @@
 .bm-cross-button {
   height: 24px;
   width: 24px;
+  left: 200px;
 }
 
 /* Color/shape of close button cross */
@@ -35,13 +36,15 @@
   */
 .bm-menu-wrap {
   position: fixed;
-  height: 100%;
+  height: auto;
+  width: 250px;
 }
 /* General sidebar styles */
 .bm-menu {
   background: #373a47;
-  padding: 2.5em 1.5em 0;
-  font-size: 1.15em;
+  padding: 0.5em 1.5em 0;
+  font-size: 1em;
+  overflow: auto;
 }
 
 .bm-menu-list {

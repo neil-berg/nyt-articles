@@ -3,9 +3,7 @@ import { Route, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import NavBar from './NavBar';
-import NavItem from './NavItem';
-import { sections } from '../SectionsArray';
+import Spinner from './Spinner';
 import { hoursAgo } from '../helpers';
 
 const Title = styled.h1`
@@ -16,7 +14,7 @@ const Title = styled.h1`
 
 const StoryWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
+  grid-template-columns: repeat(auto-fit, 300px);
   grid-gap: 1em;
   justify-content: center;
 `;
@@ -103,18 +101,12 @@ const Button = styled.button`
 `;
 
 const TopStoriesSection = ({
-  section,
+  isLoading,
   label,
   stories,
   showMore,
-  showNextSection,
   showMoreStories
 }) => {
-  const currentIndex = sections.findIndex(item => item.section === section);
-  // If currently on last section, set the next section to the zeroth index
-  const nextIndex = currentIndex < sections.length - 1 ? currentIndex + 1 : 0;
-  const { section: nextSection, label: nextLabel } = sections[nextIndex];
-
   const renderedList = stories.map(story => {
     let dateStr = '';
     const numHours = hoursAgo(story.published_date);
@@ -142,18 +134,17 @@ const TopStoriesSection = ({
 
   return (
     <div>
-      {/* <NavBar>
-        <NavItem onClick={() => showNextSection(nextSection, nextLabel)}>
-          <Link to={`/topstories/${nextSection}`}>Next Section ➡️ </Link>
-        </NavItem>
-      </NavBar> */}
       <Title>{label}</Title>
-      <StoryWrapper>{renderedList}</StoryWrapper>
-      <ButtonContainer>
-        {!showMore ? (
-          <Button onClick={showMoreStories}>Show more stories</Button>
-        ) : null}
-      </ButtonContainer>
+      {isLoading ? (
+        <Spinner text="Loading articles" />
+      ) : (
+        <React.Fragment>
+          <StoryWrapper>{renderedList}</StoryWrapper>
+          <ButtonContainer>
+            <Button onClick={showMoreStories}>Show more stories</Button>
+          </ButtonContainer>
+        </React.Fragment>
+      )}
     </div>
   );
 };

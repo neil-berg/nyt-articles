@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
 import TopStories from './TopStories';
 import NavBar from './NavBar';
 import Home from './Home';
+import TopStoriesSection from './TopStoriesSection';
 // import TopStoriesSearch from './TopStoriesSearch';
 import { KEY } from '../apis/nyt';
 // import { formatTitle } from '../helpers';
@@ -21,16 +22,16 @@ class App extends React.Component {
     showMore: false
   };
 
-  // componentDidMount() {
-  //   const { section, label } = JSON.parse(localStorage.getItem('nytdata'));
-  //   // Initial fetch of top stories
-  //   if (section && label) {
-  //     this.setState({ section, label });
-  //     this.fetchArticles(section, label);
-  //   }
-  //   // Initial fetch of critic's movie picks
-  //   this.fetchCriticsPicksMovies();
-  // }
+  componentDidMount() {
+    const { section, label } = JSON.parse(localStorage.getItem('nytdata'));
+    // Initial fetch of top stories
+    if (section && label) {
+      this.setState({ section, label });
+      this.fetchTopStories(section, label);
+    }
+    // Initial fetch of critic's movie picks
+    // this.fetchCriticsPicksMovies();
+  }
 
   fetchTopStories = async (section, label) => {
     // Show spinner while articles load articles load
@@ -80,15 +81,15 @@ class App extends React.Component {
   //   this.fetchArticles(nextSection, nextLabel);
   // };
 
-  // // Reveal more articles for a given section
-  // // by appending 10 more stories in state
-  // showMoreStories = e => {
-  //   e.preventDefault();
-  //   this.setState(prevState => ({
-  //     stories: [...prevState.stories, ...prevState.moreStories],
-  //     showMore: true
-  //   }));
-  // };
+  // Reveal more articles for a given section
+  // by appending 10 more stories in state
+  showMoreStories = e => {
+    e.preventDefault();
+    this.setState(prevState => ({
+      stories: [...prevState.stories, ...prevState.moreStories],
+      showMore: true
+    }));
+  };
 
   render() {
     return (
@@ -100,6 +101,19 @@ class App extends React.Component {
             path="/topstories"
             render={props => (
               <TopStories {...props} fetchTopStories={this.fetchTopStories} />
+            )}
+          />
+          <Route
+            path={'/topstories/:sectionId'}
+            render={props => (
+              <TopStoriesSection
+                {...props}
+                isLoading={this.state.isLoading}
+                stories={this.state.stories}
+                label={this.state.label}
+                showMore={this.state.showMore}
+                showMoreStories={this.showMoreStories}
+              />
             )}
           />
         </div>

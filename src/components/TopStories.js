@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { sections } from '../SectionsArray';
+import MenuSections from './MenuSections';
+import TopStoriesSection from './TopStoriesSection';
 
 const SectionContainer = styled.ul`
   display: grid;
@@ -41,31 +43,11 @@ const SectionItem = styled.li`
   }
 `;
 
-const TopStories = ({ match, fetchTopStories }) => {
-  const renderedList = sections.map(item => {
-    const { label, section } = { ...item };
-    return (
-      <SectionItem
-        key={section}
-        onClick={() => fetchTopStories(section, label)}
-      >
-        <Link to={`${match.url}/${section}`}>{label}</Link>
-      </SectionItem>
-    );
-  });
+const TopStories = ({ fetchTopStories }) => {
   return (
     <React.Fragment>
-      <SectionContainer>{renderedList}</SectionContainer>
-      <Route path={`${match.path}/:sectionId`} component={Section} />
+      <MenuSections fetchTopStories={fetchTopStories} />
     </React.Fragment>
-  );
-};
-
-const Section = ({ match }) => {
-  return (
-    <div>
-      <h3>{match.params.sectionId}</h3>
-    </div>
   );
 };
 
