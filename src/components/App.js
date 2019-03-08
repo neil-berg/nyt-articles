@@ -5,9 +5,8 @@ import TopStories from './TopStories';
 import NavBar from './NavBar';
 import Home from './Home';
 import TopStoriesSection from './TopStoriesSection';
-// import TopStoriesSearch from './TopStoriesSearch';
+import NotFound from './NotFound';
 import { KEY } from '../apis/nyt';
-// import { formatTitle } from '../helpers';
 
 class App extends React.Component {
   state = {
@@ -104,15 +103,15 @@ class App extends React.Component {
             )}
           />
           <Route
-            path={'/topstories/:sectionId'}
+            path="/topstories/:sectionId"
             render={props => (
               <TopStoriesSection
                 {...props}
                 isLoading={this.state.isLoading}
                 stories={this.state.stories}
                 label={this.state.label}
-                showMore={this.state.showMore}
                 showMoreStories={this.showMoreStories}
+                showMore={this.state.showMore}
               />
             )}
           />

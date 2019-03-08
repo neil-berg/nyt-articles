@@ -141,7 +141,9 @@ const TopStoriesSection = ({
         <React.Fragment>
           <StoryWrapper>{renderedList}</StoryWrapper>
           <ButtonContainer>
-            <Button onClick={showMoreStories}>Show more stories</Button>
+            {!showMore ? (
+              <Button onClick={showMoreStories}>Show more stories</Button>
+            ) : null}
           </ButtonContainer>
         </React.Fragment>
       )}
