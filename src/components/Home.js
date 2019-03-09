@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import TopStoriesNav from './TopStoriesNav';
-import MovieReviews from './MovieReviews';
-import BookReviews from './BookReviews';
 import Footer from './Footer';
 
 const Home = () => {
@@ -10,10 +8,10 @@ const Home = () => {
     <div>
       <TopStoriesNav />
       <section>
-        <MovieReviews />
+        <Link to="/movies">Movie Reviews</Link>
       </section>
       <section>
-        <BookReviews />
+        <Link to="/books">Book Reviews</Link>
       </section>
       <Footer />
     </div>

@@ -1,53 +1,62 @@
 import React from 'react';
-import { Link, Route } from 'react-router-dom';
-import styled from 'styled-components';
-import { sections } from '../SectionsArray';
-import MenuSections from './MenuSections';
-import TopStoriesSection from './TopStoriesSection';
-
-const SectionContainer = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 100px);
-  grid-gap: 0.4em;
-  margin: 1em 2em;
-  padding: 0;
-  justify-content: center;
-`;
-
-const SectionItem = styled.li`
-  list-style-type: none;
-  margin: 0.25em;
-  padding: 0;
-  font-size: 0.5em;
-  border: 1px rgba(0, 0, 0, 0.2) solid;
-  border-radius: 5px;
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
-  text-align: left;
-  transition: 0.3s;
-  :hover {
-    box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  :focus {
-    outline: none;
-  }
-  :active {
-    transform: scale(1.05);
-  }
-
-  a {
-    color: black;
-    text-decoration: none;
-    border: 1pd red solid;
-    padding: 0.25em 1em;
-    display: block;
-  }
-`;
+import TopStoriesNav from './TopStoriesNav';
+import Spinner from './Spinner';
+import { KEY } from '../apis/nyt';
 
 class TopStories extends React.Component {
+  state = {
+    section: '',
+    stories: [],
+    moreStories: [],
+    isLoading: false
+  };
+
+  componentDidMount() {
+    const section = this.props.match.params.sectionId;
+    this.fetchStories(section);
+  }
+
+  componentDidUpdate(prevProps) {
+    const oldSection = prevProps.match.params.sectionId;
+    const newSection = this.props.match.params.sectionId;
+    if (oldSection !== newSection) {
+      this.fetchStories(newSection);
+    }
+  }
+
+  fetchStories = async section => {
+    // Show spinner while articles load articles load
+    this.setState({ section, isLoading: true });
+
+    // Await the fetched articles
+    const url = `https://api.nytimes.com/svc/topstories/v2/${section}.json?api-key=${KEY}`;
+    const response = await fetch(url);
+    const json = await response.json();
+    const allStories = await json.results;
+    const stories = allStories.slice(0, 10);
+    const moreStories = allStories.slice(10);
+
+    // Load stories in state, stop spinner, and show stories
+    this.setState({ stories, moreStories, isLoading: false });
+
+    // Retain user selection for local persistence
+    localStorage.setItem(
+      'nytdata',
+      JSON.stringify({ section: this.state.section })
+    );
+  };
+
   render() {
+    const titles = this.state.stories.map(story => story.title);
     return (
       <div>
+        <TopStoriesNav />
         <h2>{this.props.match.params.sectionId}</h2>
+        {this.state.isLoading ? (
+          <Spinner text="Loading articles" />
+        ) : (
+          <div>{titles}</div>
+        )}
       </div>
     );
   }
