@@ -41,13 +41,7 @@ const NavBar = () => (
         <Link to="/">Home</Link>
       </StyledLI>
       <StyledLI>
-        <Link to="/topstories">Top Stories</Link>
-      </StyledLI>
-      <StyledLI>
-        <Link to="/criticspicks">Critic's Picks</Link>
-      </StyledLI>
-      <StyledLI>
-        <Link to="/reviewarchives">Review Archives</Link>
+        <Link to="/topstories/:sectionId">Top Stories</Link>
       </StyledLI>
     </StyledUL>
   </nav>

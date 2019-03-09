@@ -1,10 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
-// import HeaderLogo from './HeaderLogo';
-import TopStories from './TopStories';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import NavBar from './NavBar';
 import Home from './Home';
-import TopStoriesSection from './TopStoriesSection';
+import TopStories from './TopStories';
+import MovieReviews from './MovieReviews';
+import BookReviews from './BookReviews';
 import NotFound from './NotFound';
 import { KEY } from '../apis/nyt';
 
@@ -94,27 +94,13 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-          <NavBar />
-          <Route exact path="/" component={Home} />
-          <Route
-            path="/topstories"
-            render={props => (
-              <TopStories {...props} fetchTopStories={this.fetchTopStories} />
-            )}
-          />
-          <Route
-            path="/topstories/:sectionId"
-            render={props => (
-              <TopStoriesSection
-                {...props}
-                isLoading={this.state.isLoading}
-                stories={this.state.stories}
-                label={this.state.label}
-                showMoreStories={this.showMoreStories}
-                showMore={this.state.showMore}
-              />
-            )}
-          />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/topstories/:sectionId" component={TopStories} />
+            <Route exact path="/movies" component={MovieReviews} />
+            <Route exact path="/books" component={BookReviews} />
+            <Route component={NotFound} />
+          </Switch>
         </div>
       </Router>
     );

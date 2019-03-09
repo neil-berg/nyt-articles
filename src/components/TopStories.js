@@ -43,12 +43,14 @@ const SectionItem = styled.li`
   }
 `;
 
-const TopStories = ({ fetchTopStories }) => {
-  return (
-    <React.Fragment>
-      <MenuSections fetchTopStories={fetchTopStories} />
-    </React.Fragment>
-  );
-};
+class TopStories extends React.Component {
+  render() {
+    return (
+      <div>
+        <h2>{this.props.match.params.sectionId}</h2>
+      </div>
+    );
+  }
+}
 
 export default TopStories;
