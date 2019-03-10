@@ -24,6 +24,7 @@ const SubTitle = styled.p`
     text-decoration: none;
     font-weight: bold;
     color: black;
+    transition: all 0.3s;
   }
 
   a:hover {

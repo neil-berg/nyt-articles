@@ -1,7 +1,21 @@
 import React from 'react';
+import styled from 'styled-components';
 import TopStoriesNav from './TopStoriesNav';
+import StoryItem from './StoryItem';
 import Spinner from './Spinner';
 import { KEY } from '../apis/nyt';
+
+const SectionTitle = styled.h1`
+  text-align: center;
+  text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
+`;
+
+const StoryWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 300px);
+  grid-gap: 1em;
+  justify-content: center;
+`;
 
 class TopStories extends React.Component {
   state = {
@@ -47,15 +61,19 @@ class TopStories extends React.Component {
   };
 
   render() {
-    const titles = this.state.stories.map(story => story.title);
+    const storyItems = this.state.stories.map(story => (
+      <StoryItem key={story.title} story={story} />
+    ));
     return (
       <div>
         <TopStoriesNav />
-        <h2>{this.props.match.params.sectionId}</h2>
+        <SectionTitle>
+          {this.props.match.params.sectionId.toUpperCase()}
+        </SectionTitle>
         {this.state.isLoading ? (
           <Spinner text="Loading articles" />
         ) : (
-          <div>{titles}</div>
+          <StoryWrapper>{storyItems}</StoryWrapper>
         )}
       </div>
     );
