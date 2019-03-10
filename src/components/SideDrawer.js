@@ -96,7 +96,7 @@ class SideDrawer extends React.Component {
           onClick={() => this.handleClick()}
           to={`/topstories/${searchTerm}`}
         >
-          <div style={{ padding: '0.75em' }}>
+          <div style={{ padding: '1em' }}>
             <FontAwesomeIcon icon={icon} fixedWidth sz="lg" />
             <span style={{ marginLeft: '1.25em' }}>{label}</span>
           </div>

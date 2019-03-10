@@ -4,6 +4,7 @@ import TopStoriesNav from './TopStoriesNav';
 import StoryItem from './StoryItem';
 import Spinner from './Spinner';
 import { KEY } from '../apis/nyt';
+import { sections } from '../SectionsArray';
 
 const SectionTitle = styled.h1`
   text-align: center;
@@ -42,6 +43,7 @@ const Button = styled.button`
 class TopStories extends React.Component {
   state = {
     section: '',
+    label: '',
     stories: [],
     moreStories: [],
     isLoading: false,
@@ -63,8 +65,10 @@ class TopStories extends React.Component {
   }
 
   fetchStories = async section => {
-    // Show spinner while articles load articles load
-    this.setState({ section, isLoading: true });
+    // Locate the matching label for this section and
+    // Ssow spinner while articles load articles load
+    const label = sections.filter(item => item.searchTerm === section)[0].label;
+    this.setState({ section, label, isLoading: true });
 
     // Await the fetched articles
     const url = `https://api.nytimes.com/svc/topstories/v2/${section}.json?api-key=${KEY}`;
@@ -98,9 +102,7 @@ class TopStories extends React.Component {
     return (
       <div>
         <TopStoriesNav />
-        <SectionTitle>
-          {this.props.match.params.sectionId.toUpperCase()}
-        </SectionTitle>
+        <SectionTitle>{this.state.label.toUpperCase()}</SectionTitle>
         {this.state.isLoading ? (
           <Spinner text="Loading articles" />
         ) : (

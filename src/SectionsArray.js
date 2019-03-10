@@ -1,5 +1,5 @@
 export const sections = [
-  { searchTerm: 'national', label: 'Nation', icon: 'flag' },
+  { searchTerm: 'national', label: 'National', icon: 'flag' },
   { searchTerm: 'arts', label: 'Arts', icon: 'palette' },
   { searchTerm: 'food', label: 'Food', icon: 'utensils' },
   { searchTerm: 'politics', label: 'Politics', icon: 'landmark' },
