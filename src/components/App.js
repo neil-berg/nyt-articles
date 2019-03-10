@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Header from './Header';
 import Home from './Home';
 import TopStories from './TopStories';
 import MovieReviews from './MovieReviews';
@@ -61,6 +62,7 @@ class App extends React.Component {
     return (
       <Router>
         <div>
+          <Header />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/topstories/:sectionId" component={TopStories} />

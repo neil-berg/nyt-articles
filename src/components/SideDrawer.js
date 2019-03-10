@@ -2,15 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { slide as Menu } from 'react-burger-menu';
 import { sections } from '../SectionsArray';
-import './MenuSections.css';
+import './SideDrawer.css';
 
-class MenuSections extends React.Component {
+class SideDrawer extends React.Component {
   state = {
-    menuOpen: true
+    menuOpen: false
   };
 
-  handleClick = (section, label) => {
-    this.props.fetchTopStories(section, label);
+  handleClick = () => {
     this.closeMenu();
   };
 
@@ -28,7 +27,7 @@ class MenuSections extends React.Component {
       return (
         <Link
           key={section}
-          onClick={() => this.handleClick(section, label)}
+          onClick={() => this.handleClick()}
           to={`/topstories/${section}`}
         >
           {label}
@@ -39,7 +38,7 @@ class MenuSections extends React.Component {
       <Menu
         isOpen={this.state.menuOpen}
         onStateChange={state => this.handleStateChange(state)}
-        width={'300px'}
+        width={'200px'}
       >
         {renderedList}
       </Menu>
@@ -47,4 +46,4 @@ class MenuSections extends React.Component {
   }
 }
 
-export default MenuSections;
+export default SideDrawer;
