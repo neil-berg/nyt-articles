@@ -1,5 +1,32 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {
+  faFlag,
+  faPalette,
+  faUtensils,
+  faLandmark,
+  faFootballBall,
+  faMoneyBillAlt,
+  faGlobe,
+  faComments,
+  faUserMd,
+  faBookReader,
+  faShoppingBag,
+  faPlane,
+  faHome,
+  faBookOpen,
+  faVideo,
+  faFlask,
+  faMobileAlt,
+  faArrowAltCircleUp,
+  faCity,
+  faSearch,
+  faTheaterMasks,
+  faSkullCrossbones,
+  faAppleAlt,
+  faCar
+} from '@fortawesome/free-solid-svg-icons';
 import Header from './Header';
 import Home from './Home';
 import TopStories from './TopStories';
@@ -7,6 +34,33 @@ import MovieReviews from './MovieReviews';
 import BookReviews from './BookReviews';
 import NotFound from './NotFound';
 import { KEY } from '../apis/nyt';
+
+library.add(
+  faFlag,
+  faPalette,
+  faUtensils,
+  faLandmark,
+  faFootballBall,
+  faMoneyBillAlt,
+  faGlobe,
+  faComments,
+  faUserMd,
+  faBookReader,
+  faShoppingBag,
+  faPlane,
+  faHome,
+  faBookOpen,
+  faVideo,
+  faFlask,
+  faMobileAlt,
+  faArrowAltCircleUp,
+  faCity,
+  faSearch,
+  faTheaterMasks,
+  faSkullCrossbones,
+  faAppleAlt,
+  faCar
+);
 
 class App extends React.Component {
   // state = {

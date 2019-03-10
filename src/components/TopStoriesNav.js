@@ -1,29 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import styled from 'styled-components';
 import SideDrawer from './SideDrawer';
+import { sections } from '../SectionsArray';
+
+const StyledNav = styled.nav`
+  padding: 0;
+  margin: 0.5em 0;
+  border: 1px lightgrey solid;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+`;
 
 const StyledList = styled.ul`
   display: flex;
   align-items: center;
+  justify-content: space-around;
   list-style-type: none;
   margin: 0;
   padding: 0;
   position: relative;
-  left: 70px;
-  bottom: 15px;
-  width: 85%;
-  padding: 0;
-  border-bottom: 1px grey solid;
-  border-top: 1px grey solid;
+  bottom: 14px;
+  // width: 100%;
+
+  li:fist-child {
+    margin-left: 2em;
+  }
 `;
 
 const StyledItem = styled.li`
-  flex: 1;
-  font-size: 0.8em;
+  font-size: 1em;
   font-weight: bold;
-  padding: 0.45em 0;
-  text-align: center;
+  padding: 0;
+  margin: 0;
+  text-align: left;
 
   a {
     color: black;
@@ -36,28 +46,25 @@ const StyledItem = styled.li`
   }
 `;
 
+// Note: the empty div first-child under StyledList
+// acts to push remaining list items right of the hamburger
 const TopStoriesNav = () => {
+  // Calculate the number of section items (90px each) to place in nav
+  const width = window.innerWidth;
+  const numItems = Math.floor(width / 90) - 2;
+  const navItems = sections.slice(0, numItems).map(item => (
+    <StyledItem key={item.searchTerm}>
+      <Link to={`/topstories/${item.searchTerm}`}>{item.label}</Link>
+    </StyledItem>
+  ));
   return (
-    <nav>
+    <StyledNav>
       <SideDrawer />
       <StyledList>
-        <StyledItem>
-          <Link to="/topstories/arts">Arts</Link>
-        </StyledItem>
-        <StyledItem>
-          <Link to="/topstories/politics">Politics</Link>
-        </StyledItem>
-        <StyledItem>
-          <Link to="/topstories/sports">Sports</Link>
-        </StyledItem>
-        <StyledItem>
-          <Link to="/topstories/science">Science</Link>
-        </StyledItem>
-        <StyledItem>
-          <Link to="/topstories/fashion">Fashion</Link>
-        </StyledItem>
+        <div />
+        {navItems}
       </StyledList>
-    </nav>
+    </StyledNav>
   );
 };
 

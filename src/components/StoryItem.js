@@ -63,28 +63,6 @@ const Story = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const Button = styled.button`
-  padding: 0.5em 1em;
-  margin: 1em 0;
-  border-radius: 5px;
-  background: #3c3c3c;
-  color: white;
-  font-size: 1em;
-  font-weight: 200;
-  cursor: pointer;
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s;
-  :hover,
-  :focus {
-    background: #2a2a2a;
-  }
-`;
-
 const StoryItem = ({ story }) => {
   let dateStr = '';
   const numHours = hoursAgo(story.published_date);
