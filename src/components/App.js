@@ -79,7 +79,12 @@ class App extends React.Component {
                 <Home {...props} windowWidth={this.state.windowWidth} />
               )}
             />
-            <Route path="/topstories/:sectionId" component={TopStories} />
+            <Route
+              path="/topstories/:sectionId"
+              render={props => (
+                <TopStories {...props} windowWidth={this.state.windowWidth} />
+              )}
+            />
             <Route exact path="/movies" component={MovieReviews} />
             <Route exact path="/books" component={BookReviews} />
             <Route component={NotFound} />

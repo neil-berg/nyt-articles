@@ -101,7 +101,7 @@ class TopStories extends React.Component {
     ));
     return (
       <div>
-        <TopStoriesNav />
+        <TopStoriesNav windowWidth={this.props.windowWidth} />
         <SectionTitle>{this.state.label.toUpperCase()}</SectionTitle>
         {this.state.isLoading ? (
           <Spinner text="Loading articles" />
