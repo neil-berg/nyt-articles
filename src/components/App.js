@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Header from './Header';
+import Footer from './Footer';
 import Home from './Home';
 import TopStories from './TopStories';
 import MovieReviews from './MovieReviews';
@@ -89,6 +90,7 @@ class App extends React.Component {
             <Route exact path="/books" component={BookReviews} />
             <Route component={NotFound} />
           </Switch>
+          <Footer />
         </div>
       </Router>
     );
