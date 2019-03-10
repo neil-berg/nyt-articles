@@ -12,13 +12,15 @@ import { KEY } from '../apis/nyt';
 
 class App extends React.Component {
   state = {
-    windowWidth: null
+    windowWidth: null,
+    popularStories: []
   };
 
   componentDidMount() {
     const innerWidth = window.innerWidth;
     this.setState({ windowWidth: innerWidth });
     window.addEventListener('resize', this.handleResize);
+    this.fetchPopularStories();
   }
 
   componentWillMount() {
@@ -28,6 +30,14 @@ class App extends React.Component {
   handleResize = () => {
     const innerWidth = window.innerWidth;
     this.setState(prevState => ({ windowWidth: innerWidth }));
+  };
+
+  fetchPopularStories = async () => {
+    const url = `https://api.nytimes.com/svc/mostpopular/v2/emailed/7.json?api-key=${KEY}`;
+    const response = await fetch(url);
+    const json = await response.json();
+    const popularStories = await json.results;
+    this.setState({ popularStories });
   };
 
   // componentDidMount() {
