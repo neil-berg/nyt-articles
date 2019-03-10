@@ -17,12 +17,35 @@ const StoryWrapper = styled.div`
   justify-content: center;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const Button = styled.button`
+  padding: 0.5em 1em;
+  margin: 1em 0;
+  border-radius: 5px;
+  background: #3c3c3c;
+  color: white;
+  font-size: 1em;
+  font-weight: 200;
+  cursor: pointer;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s;
+  :hover,
+  :focus {
+    background: #2a2a2a;
+  }
+`;
+
 class TopStories extends React.Component {
   state = {
     section: '',
     stories: [],
     moreStories: [],
-    isLoading: false
+    isLoading: false,
+    showMore: true
   };
 
   componentDidMount() {
@@ -35,6 +58,7 @@ class TopStories extends React.Component {
     const newSection = this.props.match.params.sectionId;
     if (oldSection !== newSection) {
       this.fetchStories(newSection);
+      this.setState({ showMore: true });
     }
   }
 
@@ -60,6 +84,13 @@ class TopStories extends React.Component {
     );
   };
 
+  showMoreStories = () => {
+    this.setState(prevState => ({
+      showMore: false,
+      stories: [...prevState.stories, ...prevState.moreStories]
+    }));
+  };
+
   render() {
     const storyItems = this.state.stories.map(story => (
       <StoryItem key={story.title} story={story} />
@@ -75,6 +106,11 @@ class TopStories extends React.Component {
         ) : (
           <StoryWrapper>{storyItems}</StoryWrapper>
         )}
+        {!this.state.isLoading && this.state.showMore ? (
+          <ButtonContainer>
+            <Button onClick={this.showMoreStories}>Show more stories</Button>
+          </ButtonContainer>
+        ) : null}
       </div>
     );
   }
