@@ -21,15 +21,10 @@ const StyledList = styled.ul`
   padding: 0;
   position: relative;
   bottom: 14px;
-  // width: 100%;
-
-  li:fist-child {
-    margin-left: 2em;
-  }
 `;
 
 const StyledItem = styled.li`
-  font-size: 1em;
+  font-size: 0.75em;
   font-weight: bold;
   padding: 0;
   margin: 0;
@@ -46,14 +41,17 @@ const StyledItem = styled.li`
   }
 `;
 
-// Note: the empty div first-child under StyledList
-// acts to push remaining list items right of the hamburger
-const TopStoriesNav = () => {
+const BufferItem = styled.div`
+  margin-right: ${props => (props.windowWidth > 500 ? '2em' : '0em')};
+`;
+
+// Note: the empty div (BufferItem) under StyledList
+// simply pushes remaining list items right of the hamburger
+const TopStoriesNav = ({ windowWidth }) => {
   // Calculate the number of section items (90px each) to place in nav
-  const width = window.innerWidth;
-  const numItems = Math.floor(width / 90) - 2;
+  const numItems = Math.floor(windowWidth / 70) - 2;
   const navItems = sections.slice(0, numItems).map(item => (
-    <StyledItem key={item.searchTerm}>
+    <StyledItem key={item.searchTerm} windowWidth={windowWidth}>
       <Link to={`/topstories/${item.searchTerm}`}>{item.label}</Link>
     </StyledItem>
   ));
@@ -61,7 +59,7 @@ const TopStoriesNav = () => {
     <StyledNav>
       <SideDrawer />
       <StyledList>
-        <div />
+        <BufferItem windowWidth={windowWidth} />
         {navItems}
       </StyledList>
     </StyledNav>

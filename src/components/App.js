@@ -1,32 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faFlag,
-  faPalette,
-  faUtensils,
-  faLandmark,
-  faFootballBall,
-  faMoneyBillAlt,
-  faGlobe,
-  faComments,
-  faUserMd,
-  faBookReader,
-  faShoppingBag,
-  faPlane,
-  faHome,
-  faBookOpen,
-  faVideo,
-  faFlask,
-  faMobileAlt,
-  faArrowAltCircleUp,
-  faCity,
-  faSearch,
-  faTheaterMasks,
-  faSkullCrossbones,
-  faAppleAlt,
-  faCar
-} from '@fortawesome/free-solid-svg-icons';
+
 import Header from './Header';
 import Home from './Home';
 import TopStories from './TopStories';
@@ -35,45 +9,25 @@ import BookReviews from './BookReviews';
 import NotFound from './NotFound';
 import { KEY } from '../apis/nyt';
 
-library.add(
-  faFlag,
-  faPalette,
-  faUtensils,
-  faLandmark,
-  faFootballBall,
-  faMoneyBillAlt,
-  faGlobe,
-  faComments,
-  faUserMd,
-  faBookReader,
-  faShoppingBag,
-  faPlane,
-  faHome,
-  faBookOpen,
-  faVideo,
-  faFlask,
-  faMobileAlt,
-  faArrowAltCircleUp,
-  faCity,
-  faSearch,
-  faTheaterMasks,
-  faSkullCrossbones,
-  faAppleAlt,
-  faCar
-);
-
 class App extends React.Component {
-  // state = {
-  //   section: '',
-  //   label: '',
-  //   movieTitle: '',
-  //   stories: [],
-  //   moreStories: [],
-  //   criticsPicksMovies: [],
-  //   userSearchMovies: [],
-  //   isLoading: false,
-  //   showMore: false
-  // };
+  state = {
+    windowWidth: null
+  };
+
+  componentDidMount() {
+    const innerWidth = window.innerWidth;
+    this.setState({ windowWidth: innerWidth });
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  componentWillMount() {
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  handleResize = () => {
+    const innerWidth = window.innerWidth;
+    this.setState(prevState => ({ windowWidth: innerWidth }));
+  };
 
   // componentDidMount() {
   //   const { section, label } = JSON.parse(localStorage.getItem('nytdata'));
@@ -118,7 +72,13 @@ class App extends React.Component {
         <div>
           <Header />
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <Home {...props} windowWidth={this.state.windowWidth} />
+              )}
+            />
             <Route path="/topstories/:sectionId" component={TopStories} />
             <Route exact path="/movies" component={MovieReviews} />
             <Route exact path="/books" component={BookReviews} />

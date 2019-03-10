@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import TopStoriesNav from './TopStoriesNav';
 import Footer from './Footer';
 
-const Home = () => {
+const Home = props => {
   return (
     <div>
-      <TopStoriesNav />
+      <TopStoriesNav windowWidth={props.windowWidth} />
       <section>
         <Link to="/movies">Movie Reviews</Link>
       </section>
