@@ -6,9 +6,11 @@ import Spinner from './Spinner';
 import { KEY } from '../apis/nyt';
 import { sections } from '../SectionsArray';
 
-const SectionTitle = styled.h1`
+const SectionTitle = styled.h2`
   text-align: center;
   text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
+  font-family: 'Libre Baskerville', serif;
+  font-size: 2em;
 `;
 
 const StoryWrapper = styled.div`

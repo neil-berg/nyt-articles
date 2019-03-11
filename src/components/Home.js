@@ -23,7 +23,9 @@ const Home = ({ windowWidth, popularStories }) => {
     <div>
       <TopStoriesNav windowWidth={windowWidth} />
       <section className="popular">
-        <h2 style={{ textAlign: 'center' }}>Most Viewed Stories This Week</h2>
+        <h2 style={{ textAlign: 'center', fontFamily: 'Bungee Inline' }}>
+          Most Viewed Stories This Week
+        </h2>
         <StoryWrapper>{storyItems}</StoryWrapper>
       </section>
       <section className="movies">
