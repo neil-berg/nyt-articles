@@ -33,7 +33,7 @@ class App extends React.Component {
   };
 
   fetchPopularStories = async () => {
-    const url = `https://api.nytimes.com/svc/mostpopular/v2/emailed/7.json?api-key=${KEY}`;
+    const url = `https://api.nytimes.com/svc/mostpopular/v2/viewed/7.json?api-key=${KEY}`;
     const response = await fetch(url);
     const json = await response.json();
     const popularStories = await json.results;
@@ -87,7 +87,11 @@ class App extends React.Component {
               exact
               path="/"
               render={props => (
-                <Home {...props} windowWidth={this.state.windowWidth} />
+                <Home
+                  {...props}
+                  windowWidth={this.state.windowWidth}
+                  popularStories={this.state.popularStories}
+                />
               )}
             />
             <Route

@@ -63,7 +63,7 @@ const Story = styled.div`
   }
 `;
 
-const StoryItem = ({ story }) => {
+const StoryItem = ({ story, storyType }) => {
   let dateStr = '';
   const numHours = hoursAgo(story.published_date);
   if (numHours > 24) {
@@ -72,13 +72,26 @@ const StoryItem = ({ story }) => {
   } else {
     dateStr = numHours > 1 ? `${numHours} hours ago` : '1 hour ago';
   }
+
+  // let storyUrl = '';
+  // if (story.media) {
+  //   storyUrl = story.media[0]['media-metadata'][0].url;
+  // } else {
+  //   storyUrl = story.multimedia[1].url || '';
+  // }
+
   return (
     <Story>
       <p className="byline">{story.byline.replace(/by/gi, '').trim()}</p>
       <p className="date">{dateStr}</p>
       <p className="title">{story.title}</p>
       <p className="abstract">{story.abstract}</p>
-      <img src={story.multimedia[1] ? story.multimedia[1].url : ''} alt="" />
+      {storyType === 'topStory' ? (
+        <img src={story.multimedia[1] ? story.multimedia[1].url : ''} alt="" />
+      ) : (
+        <img src={story.media[0]['media-metadata'][0].url} alt="" />
+      )}
+      {/* <img src={storyUrl} alt="" /> */}
       <a
         className="url"
         href={story.url}

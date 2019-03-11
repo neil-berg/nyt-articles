@@ -97,7 +97,7 @@ class TopStories extends React.Component {
 
   render() {
     const storyItems = this.state.stories.map(story => (
-      <StoryItem key={story.title} story={story} />
+      <StoryItem key={story.title} story={story} storyType="topStory" />
     ));
     return (
       <div>
