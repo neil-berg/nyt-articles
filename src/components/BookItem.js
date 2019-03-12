@@ -16,9 +16,12 @@ const Book = styled.div`
   }
   p.rank {
     font-size: 0.85em;
-    padding-bottom: 0.5em;
-    color: grey;
     font-weight: bold;
+    padding: 0.5em 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
   }
 
   img {
@@ -32,8 +35,14 @@ const BookItem = ({ book }) => {
   return (
     <Book>
       <p className="rank">
-        <span style={{ color: 'black' }}>#{book.rank}</span> |{' '}
-        {book.weeks_on_list} {book.weeks_on_list > 1 ? 'weeks' : 'week'} on list
+        <span style={{ color: '#fff4a8', fontSize: '1.35em' }}>
+          #{book.rank}
+        </span>
+
+        <span style={{ fontSize: '0.85em', color: 'white' }}>
+          {book.weeks_on_list} {book.weeks_on_list > 1 ? 'weeks' : 'week'} on
+          list
+        </span>
       </p>
       <img src={book.book_image} alt="" />
     </Book>

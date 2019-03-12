@@ -16,6 +16,7 @@ const BookWrapper = styled.div`
   grid-template-columns: repeat(auto-fit, 175px);
   grid-gap: 1em;
   justify-content: center;
+  background: black;
 `;
 
 const Home = ({
