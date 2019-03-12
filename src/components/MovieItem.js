@@ -4,63 +4,60 @@ import PropTypes from 'prop-types';
 import { hoursAgo } from '../helpers';
 
 const Movie = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas:
-    'author date'
-    'title title'
-    'abstract image'
-    'url .';
-  border-top: 1px lightgrey solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   border-bottom: 1px lightgrey solid;
   letter-spacing: 0.1px;
 
   > p,
   a {
     margin: 0;
-    padding: 0.35em 0.35em;
   }
-  p.byline {
-    grid-area: author;
+
+  .byline-date {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .byline-date p.byline {
     font-size: 0.65em;
     color: grey;
     font-weight: bold;
+  }
+  .byline-date p.date {
+    font-size: 0.65em;
+    color: grey;
   }
   p.title {
-    grid-area: title;
-    font-size: 0.75em;
+    font-size: 1em;
     color: black
     font-weight: bold;
-  }
-  p.date {
-    grid-area: date;
-    font-size: 0.65em;
-    color: grey;
-    text-align: right;
+    text-align: center;
+    padding-bottom: 0.35em;
   }
   p.abstract {
-    grid-area: abstract;
     font-size: 0.75em;
   }
 
   a.url {
-    grid-area: url;
     font-size: 0.7em;
+    text-align: center;
+    padding: 0.35em 0em;
+    justify-self: flex-end;
     color: grey;
     text-decoration: none;
     transition: all 0.3s;
-    align-self: end;
+    cursor: pointer;
   }
   a.url:hover {
     color: #2a78f7;
   }
   img {
-    grid-area: image;
     display: block;
     width: 100%;
     margin: 0;
-    padding: 0.25em 0em;
-    align-self: top;
   }
 `;
 
@@ -76,11 +73,13 @@ const MovieItem = ({ movie }) => {
 
   return (
     <Movie>
-      <p className="byline">{movie.byline.replace(/by/gi, '').trim()}</p>
-      <p className="date">{dateStr}</p>
       <p className="title">{movie.display_title}</p>
-      <p className="abstract">{movie.summary_short}</p>
       <img src={movie.multimedia.src} alt="" />
+      <div className="byline-date">
+        <p className="byline">{movie.byline.replace(/by/gi, '').trim()}</p>
+        <p className="date">{dateStr}</p>
+      </div>
+      <p className="abstract">{movie.summary_short}</p>
       <a
         className="url"
         href={movie.url}

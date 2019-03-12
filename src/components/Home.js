@@ -11,6 +11,7 @@ const ItemWrapper = styled.div`
   grid-gap: 1em;
   justify-content: center;
 `;
+
 const BookWrapper = styled.div`
   display: flex
   align-items: flex-start;
