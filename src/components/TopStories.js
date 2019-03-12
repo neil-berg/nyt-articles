@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import TopStoriesNav from './TopStoriesNav';
 import StoryItem from './StoryItem';
 import Spinner from './Spinner';
-import { KEY } from '../apis/nyt';
 import { sections } from '../SectionsArray';
 
 const SectionTitle = styled.h2`
@@ -72,7 +71,9 @@ class TopStories extends React.Component {
     this.setState({ section, label, isLoading: true });
 
     // Await the fetched articles
-    const url = `https://api.nytimes.com/svc/topstories/v2/${section}.json?api-key=${KEY}`;
+    const url = `https://api.nytimes.com/svc/topstories/v2/${section}.json?api-key=${
+      process.env.REACT_APP_API_KEY
+    }`;
     const response = await fetch(url);
     const json = await response.json();
     const allStories = await json.results;

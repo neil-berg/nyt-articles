@@ -1,38 +1,54 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFireAlt } from '@fortawesome/free-solid-svg-icons';
 import TopStoriesNav from './TopStoriesNav';
 import StoryItem from './StoryItem';
+import MovieItem from './MovieItem';
+import BookItem from './BookItem';
 
-const StoryWrapper = styled.div`
+const ItemWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, 300px);
   grid-gap: 1em;
   justify-content: center;
 `;
+const BookWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 175px);
+  grid-gap: 1em;
+  justify-content: center;
+`;
 
-const Home = ({ windowWidth, popularStories }) => {
+const Home = ({
+  windowWidth,
+  popularStories,
+  movieReviews,
+  nonfictionBooks
+}) => {
   const storyItems = popularStories
     .slice(0, 8)
     .map(story => (
       <StoryItem key={story.title} story={story} storyType="mostPopular" />
     ));
+  const movieItems = movieReviews
+    .slice(0, 4)
+    .map(movie => <MovieItem key={movie.display_title} movie={movie} />);
+  const nonfictionItems = nonfictionBooks
+    .slice(0, 10)
+    .map(book => <BookItem key={book.title} book={book} />);
   return (
     <div>
       <TopStoriesNav windowWidth={windowWidth} />
       <section className="popular">
-        <h2 style={{ textAlign: 'center', fontFamily: 'Bungee Inline' }}>
-          Most Viewed Stories This Week
-        </h2>
-        <StoryWrapper>{storyItems}</StoryWrapper>
+        <h2 style={{ textAlign: 'center' }}>Most Viewed This Week</h2>
+        <ItemWrapper>{storyItems}</ItemWrapper>
       </section>
       <section className="movies">
-        <Link to="/movies">Movie Reviews</Link>
+        <h2 style={{ textAlign: 'center' }}>Film Critic's Picks</h2>
+        <ItemWrapper>{movieItems}</ItemWrapper>
       </section>
-      <section className="books">
-        <Link to="/books">Book Reviews</Link>
+      <section className="nonfictionBooks">
+        <h2 style={{ textAlign: 'center' }}>Best Sellers: Non-Fiction</h2>
+        <BookWrapper>{nonfictionItems}</BookWrapper>
       </section>
     </div>
   );

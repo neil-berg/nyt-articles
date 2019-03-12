@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import { slide as Menu } from 'react-burger-menu';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -86,7 +85,6 @@ class SideDrawer extends React.Component {
       } else {
         return 1;
       }
-      return 0;
     });
     const renderedList = sortedSections.map(item => {
       const { searchTerm, label, icon } = { ...item };

@@ -50,7 +50,11 @@ const Header = () => (
     </Link>
     <SubTitle>
       Powered by{' '}
-      <a href="https://developer.nytimes.com/" target="_blank">
+      <a
+        href="https://developer.nytimes.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         The New York Times API
       </a>
     </SubTitle>

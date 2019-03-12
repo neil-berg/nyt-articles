@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { hoursAgo } from '../helpers';
 
-const Story = styled.div`
+const Movie = styled.div`
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-template-areas:
     'author date'
     'title title'
     'abstract image'
-    'url image';
+    'url .';
   border-top: 1px lightgrey solid;
   border-bottom: 1px lightgrey solid;
   letter-spacing: 0.1px;
@@ -64,9 +64,9 @@ const Story = styled.div`
   }
 `;
 
-const StoryItem = ({ story, storyType }) => {
+const MovieItem = ({ movie }) => {
   let dateStr = '';
-  const numHours = hoursAgo(story.published_date);
+  const numHours = hoursAgo(movie.publication_date);
   if (numHours > 24) {
     const numDays = Math.ceil(numHours / 24);
     dateStr = numDays > 1 ? `${numDays} days ago` : '1 day ago';
@@ -75,26 +75,21 @@ const StoryItem = ({ story, storyType }) => {
   }
 
   return (
-    <Story>
-      <p className="byline">{story.byline.replace(/by/gi, '').trim()}</p>
+    <Movie>
+      <p className="byline">{movie.byline.replace(/by/gi, '').trim()}</p>
       <p className="date">{dateStr}</p>
-      <p className="title">{story.title}</p>
-      <p className="abstract">{story.abstract}</p>
-      {storyType === 'topStory' ? (
-        <img src={story.multimedia[1] ? story.multimedia[1].url : ''} alt="" />
-      ) : (
-        <img src={story.media[0]['media-metadata'][0].url} alt="" />
-      )}
-      {/* <img src={storyUrl} alt="" /> */}
+      <p className="title">{movie.display_title}</p>
+      <p className="abstract">{movie.summary_short}</p>
+      <img src={movie.multimedia.src} alt="" />
       <a
         className="url"
-        href={story.url}
+        href={movie.url}
         target="_blank"
         rel="noopener noreferrer"
       >
-        Read full story
+        Read full review
       </a>
-    </Story>
+    </Movie>
   );
 };
 
@@ -106,4 +101,4 @@ const StoryItem = ({ story, storyType }) => {
 //   showMoreStories: PropTypes.func.isRequired
 // };
 
-export default StoryItem;
+export default MovieItem;

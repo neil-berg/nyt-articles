@@ -24,7 +24,9 @@ const Container = styled.div`
 const NotFound = () => {
   return (
     <Container>
-      <span role="img">🧐</span>
+      <span role="img" aria-label="uncertain face">
+        🧐
+      </span>
       <p>This page is not found!</p>
     </Container>
   );

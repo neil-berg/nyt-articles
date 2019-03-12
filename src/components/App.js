@@ -5,17 +5,14 @@ import Header from './Header';
 import Footer from './Footer';
 import Home from './Home';
 import TopStories from './TopStories';
-import MovieReviews from './MovieReviews';
-import BookReviews from './BookReviews';
 import NotFound from './NotFound';
-import { KEY } from '../apis/nyt';
-
-console.log(process.env.REACT_APP_API_KEY);
 
 class App extends React.Component {
   state = {
     windowWidth: null,
-    popularStories: []
+    popularStories: [],
+    movieReviews: [],
+    nonfictionBooks: []
   };
 
   componentDidMount() {
@@ -23,6 +20,8 @@ class App extends React.Component {
     this.setState({ windowWidth: innerWidth });
     window.addEventListener('resize', this.handleResize);
     this.fetchPopularStories();
+    this.fetchMovieReviews();
+    this.fetchNonfictionBooks();
   }
 
   componentWillMount() {
@@ -35,49 +34,34 @@ class App extends React.Component {
   };
 
   fetchPopularStories = async () => {
-    const url = `https://api.nytimes.com/svc/mostpopular/v2/viewed/7.json?api-key=${KEY}`;
+    const url = `https://api.nytimes.com/svc/mostpopular/v2/viewed/7.json?api-key=${
+      process.env.REACT_APP_API_KEY
+    }`;
     const response = await fetch(url);
     const json = await response.json();
     const popularStories = await json.results;
     this.setState({ popularStories });
   };
 
-  // componentDidMount() {
-  //   const { section, label } = JSON.parse(localStorage.getItem('nytdata'));
-  //   // Initial fetch of top stories
-  //   if (section && label) {
-  //     this.setState({ section, label });
-  //     this.fetchTopStories(section, label);
-  //   }
-  //   // Initial fetch of critic's movie picks
-  //   // this.fetchCriticsPicksMovies();
-  // }
+  fetchMovieReviews = async () => {
+    const url = `https://api.nytimes.com/svc/movies/v2/reviews/picks.json?&api-key=${
+      process.env.REACT_APP_API_KEY
+    }`;
+    const response = await fetch(url);
+    const json = await response.json();
+    const movieReviews = await json.results;
+    this.setState({ movieReviews, isLoading: false });
+  };
 
-  // fetchCriticsPicksMovies = async () => {
-  //   const url = `https://api.nytimes.com/svc/movies/v2/reviews/picks.json?&api-key=${KEY}`;
-  //   const response = await fetch(url);
-  //   const json = await response.json();
-  //   const criticsPicksMovies = await json.results;
-  //   this.setState({ criticsPicksMovies, isLoading: false });
-  // };
-
-  // fetchUserSearchMovies = async (e, title) => {
-  //   e.preventDefault();
-  //   this.setState({ movieTitle: title, isLoading: true });
-  //   const formattedTitle = formatTitle(title);
-  //   const url = `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${formattedTitle}&api-key=${KEY}`;
-  //   console.log(url);
-  //   const response = await fetch(url);
-  //   const json = await response.json();
-  //   const userSearchMovies = await json.results;
-  //   this.setState({ userSearchMovies, isLoading: false });
-  // };
-
-  // Move to the next section by fetching new
-  // articles and updating state with them
-  // showNextSection = (nextSection, nextLabel) => {
-  //   this.fetchArticles(nextSection, nextLabel);
-  // };
+  fetchNonfictionBooks = async () => {
+    const url = `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=${
+      process.env.REACT_APP_API_KEY
+    }`;
+    const response = await fetch(url);
+    const json = await response.json();
+    const nonfictionBooks = await json.results.books;
+    this.setState({ nonfictionBooks, isLoading: false });
+  };
 
   render() {
     return (
@@ -93,6 +77,8 @@ class App extends React.Component {
                   {...props}
                   windowWidth={this.state.windowWidth}
                   popularStories={this.state.popularStories}
+                  movieReviews={this.state.movieReviews}
+                  nonfictionBooks={this.state.nonfictionBooks}
                 />
               )}
             />
@@ -102,8 +88,6 @@ class App extends React.Component {
                 <TopStories {...props} windowWidth={this.state.windowWidth} />
               )}
             />
-            <Route exact path="/movies" component={MovieReviews} />
-            <Route exact path="/books" component={BookReviews} />
             <Route component={NotFound} />
           </Switch>
           <Footer />
