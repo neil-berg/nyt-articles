@@ -10,6 +10,8 @@ import BookReviews from './BookReviews';
 import NotFound from './NotFound';
 import { KEY } from '../apis/nyt';
 
+console.log(process.env.REACT_APP_API_KEY);
+
 class App extends React.Component {
   state = {
     windowWidth: null,

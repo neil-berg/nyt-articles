@@ -13,9 +13,7 @@ const Story = styled.div`
     'url image';
   border-top: 1px lightgrey solid;
   border-bottom: 1px lightgrey solid;
-  font-family: 'Libre Baskerville', serif;
   letter-spacing: 0.1px;
-
 
   > p,
   a {
