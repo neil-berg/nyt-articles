@@ -6,7 +6,6 @@ import { hoursAgo } from '../helpers';
 const Movie = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   border-bottom: 1px lightgrey solid;
   letter-spacing: 0.1px;
 
@@ -44,7 +43,8 @@ const Movie = styled.div`
   a.url {
     font-size: 0.7em;
     text-align: center;
-    padding: 0.35em 0em;
+    margin-top: auto;
+    padding: 0.5em 0em;
     justify-self: flex-end;
     color: grey;
     text-decoration: none;
@@ -54,11 +54,24 @@ const Movie = styled.div`
   a.url:hover {
     color: #2a78f7;
   }
-  img {
+
+.imageContainer {
+  overflow: hidden;
+}
+
+.imageContainer img {
     display: block;
     width: 100%;
     margin: 0;
-  }
+    transition: all 0.3s ease-in;
+}
+
+.imageContainer:hover img {
+  border-radius: 5px;
+  transform: scale(1.25);
+  filter: grayscale(25%);
+}
+
 `;
 
 const MovieItem = ({ movie }) => {
@@ -74,7 +87,9 @@ const MovieItem = ({ movie }) => {
   return (
     <Movie>
       <p className="title">{movie.display_title}</p>
-      <img src={movie.multimedia.src} alt="" />
+      <div className="imageContainer">
+        <img src={movie.multimedia.src} alt="" />
+      </div>
       <div className="byline-date">
         <p className="byline">{movie.byline.replace(/by/gi, '').trim()}</p>
         <p className="date">{dateStr}</p>
