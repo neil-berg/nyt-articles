@@ -12,11 +12,10 @@ const ItemWrapper = styled.div`
   justify-content: center;
 `;
 const BookWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 175px);
-  grid-gap: 1em;
-  justify-content: center;
+  display: flex
+  align-items: flex-start;
   background: black;
+  overflow: auto;
 `;
 
 const Home = ({

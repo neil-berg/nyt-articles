@@ -8,6 +8,7 @@ const Book = styled.div`
   justify-content: flex-start;
   align-items: center;
   letter-spacing: 0.1px;
+  padding: 0.5em 0.75em;
 
   > p,
   a {
@@ -26,7 +27,7 @@ const Book = styled.div`
 
   img {
     display: block;
-    width: 100%;
+    width: 175px;
     margin: 0;
   }
 `;
