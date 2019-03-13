@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
 import SideDrawer from './SideDrawer';
@@ -64,6 +65,10 @@ const TopStoriesNav = ({ windowWidth }) => {
       </StyledList>
     </StyledNav>
   );
+};
+
+TopStoriesNav.propTypes = {
+  windowWidth: PropTypes.number
 };
 
 export default TopStoriesNav;

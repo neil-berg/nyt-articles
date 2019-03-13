@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+
 import TopStoriesNav from './TopStoriesNav';
 import StoryItem from './StoryItem';
 import Spinner from './Spinner';
@@ -119,5 +121,10 @@ class TopStories extends React.Component {
     );
   }
 }
+
+TopStories.propTypes = {
+  match: PropTypes.object.isRequired,
+  windowWidth: PropTypes.number
+};
 
 export default TopStories;

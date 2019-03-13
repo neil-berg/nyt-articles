@@ -107,12 +107,8 @@ const MovieItem = ({ movie }) => {
   );
 };
 
-// SectionStories.propTypes = {
-//   section: PropTypes.string.isRequired,
-//   label: PropTypes.string.isRequired,
-//   stories: PropTypes.array.isRequired,
-//   handleNextClick: PropTypes.func.isRequired,
-//   showMoreStories: PropTypes.func.isRequired
-// };
+MovieItem.propTypes = {
+  movie: PropTypes.object.isRequired
+};
 
 export default MovieItem;

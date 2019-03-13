@@ -50,12 +50,8 @@ const BookItem = ({ book }) => {
   );
 };
 
-// SectionStories.propTypes = {
-//   section: PropTypes.string.isRequired,
-//   label: PropTypes.string.isRequired,
-//   stories: PropTypes.array.isRequired,
-//   handleNextClick: PropTypes.func.isRequired,
-//   showMoreStories: PropTypes.func.isRequired
-// };
+BookItem.propTypes = {
+  book: PropTypes.object.isRequired
+};
 
 export default BookItem;

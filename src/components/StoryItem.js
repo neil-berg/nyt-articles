@@ -98,12 +98,9 @@ const StoryItem = ({ story, storyType }) => {
   );
 };
 
-// SectionStories.propTypes = {
-//   section: PropTypes.string.isRequired,
-//   label: PropTypes.string.isRequired,
-//   stories: PropTypes.array.isRequired,
-//   handleNextClick: PropTypes.func.isRequired,
-//   showMoreStories: PropTypes.func.isRequired
-// };
+StoryItem.propTypes = {
+  story: PropTypes.object.isRequired,
+  storyType: PropTypes.string.isRequired
+};
 
 export default StoryItem;

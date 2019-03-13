@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+
 import TopStoriesNav from './TopStoriesNav';
 import StoryItem from './StoryItem';
 import MovieItem from './MovieItem';
@@ -53,6 +55,13 @@ const Home = ({
       </section>
     </div>
   );
+};
+
+Home.propTypes = {
+  windowWidth: PropTypes.number,
+  popularStories: PropTypes.array.isRequired,
+  movieReviews: PropTypes.array.isRequired,
+  nonfictionBooks: PropTypes.array.isRequired
 };
 
 export default Home;
