@@ -40,7 +40,7 @@ const BookItem = ({ book }) => {
           #{book.rank}
         </span>
 
-        <span style={{ fontSize: '0.85em', color: 'white' }}>
+        <span style={{ fontSize: '0.85em', color: '#ccc' }}>
           {book.weeks_on_list} {book.weeks_on_list > 1 ? 'weeks' : 'week'} on
           list
         </span>

@@ -11,8 +11,10 @@ class App extends React.Component {
   state = {
     windowWidth: null,
     popularStories: [],
+    bookmarkedStories: [],
     movieReviews: [],
-    nonfictionBooks: []
+    nonfictionBooks: [],
+    fictionBooks: []
   };
 
   componentDidMount() {
@@ -22,6 +24,7 @@ class App extends React.Component {
     this.fetchPopularStories();
     this.fetchMovieReviews();
     this.fetchNonfictionBooks();
+    this.fetchFictionBooks();
   }
 
   componentWillMount() {
@@ -54,13 +57,45 @@ class App extends React.Component {
   };
 
   fetchNonfictionBooks = async () => {
-    const url = `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=${
+    const url = `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-nonfiction.json?api-key=${
       process.env.REACT_APP_API_KEY
     }`;
     const response = await fetch(url);
     const json = await response.json();
     const nonfictionBooks = await json.results.books;
     this.setState({ nonfictionBooks, isLoading: false });
+  };
+
+  fetchFictionBooks = async () => {
+    const url = `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=${
+      process.env.REACT_APP_API_KEY
+    }`;
+    const response = await fetch(url);
+    const json = await response.json();
+    const fictionBooks = await json.results.books;
+    this.setState({ fictionBooks, isLoading: false });
+  };
+
+  handleBookmarkClick = story => {
+    this.setState(prevState => {
+      // Check to see if story (via its URL) already exists
+      // If so, remove it from the state (i.e. user unchecks bookmark) and turn icon color grey
+      // If not, add it to the bookmarks and turn icon color blue
+      let bookmarkedStories = prevState.bookmarkedStories;
+      const storyExists = bookmarkedStories.find(
+        item => item.url === story.url
+      );
+      if (storyExists) {
+        bookmarkedStories = bookmarkedStories.filter(
+          item => item.url !== story.url
+        );
+      } else {
+        bookmarkedStories = [...bookmarkedStories, story];
+      }
+      return {
+        bookmarkedStories
+      };
+    });
   };
 
   render() {
@@ -79,13 +114,21 @@ class App extends React.Component {
                   popularStories={this.state.popularStories}
                   movieReviews={this.state.movieReviews}
                   nonfictionBooks={this.state.nonfictionBooks}
+                  fictionBooks={this.state.fictionBooks}
+                  handleBookmarkClick={this.handleBookmarkClick}
+                  bookmarkedStories={this.state.bookmarkedStories}
                 />
               )}
             />
             <Route
               path="/topstories/:sectionId"
               render={props => (
-                <TopStories {...props} windowWidth={this.state.windowWidth} />
+                <TopStories
+                  {...props}
+                  windowWidth={this.state.windowWidth}
+                  handleBookmarkClick={this.handleBookmarkClick}
+                  bookmarkedStories={this.state.bookmarkedStories}
+                />
               )}
             />
             <Route component={NotFound} />

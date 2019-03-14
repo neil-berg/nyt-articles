@@ -101,7 +101,13 @@ class TopStories extends React.Component {
 
   render() {
     const storyItems = this.state.stories.map(story => (
-      <StoryItem key={story.title} story={story} storyType="topStory" />
+      <StoryItem
+        key={story.title}
+        story={story}
+        storyType="topStory"
+        handleBookmarkClick={this.props.handleBookmarkClick}
+        bookmarkedStories={this.props.bookmarkedStories}
+      />
     ));
     return (
       <div>
@@ -124,7 +130,9 @@ class TopStories extends React.Component {
 
 TopStories.propTypes = {
   match: PropTypes.object.isRequired,
-  windowWidth: PropTypes.number
+  windowWidth: PropTypes.number,
+  handleBookmarkClick: PropTypes.func.isRequired,
+  bookmarkedStories: PropTypes.array.isRequired
 };
 
 export default TopStories;

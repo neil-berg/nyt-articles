@@ -25,17 +25,29 @@ const Home = ({
   windowWidth,
   popularStories,
   movieReviews,
-  nonfictionBooks
+  nonfictionBooks,
+  fictionBooks,
+  handleBookmarkClick,
+  bookmarkedStories
 }) => {
   const storyItems = popularStories
     .slice(0, 8)
     .map(story => (
-      <StoryItem key={story.title} story={story} storyType="mostPopular" />
+      <StoryItem
+        key={story.title}
+        story={story}
+        storyType="mostPopular"
+        handleBookmarkClick={handleBookmarkClick}
+        bookmarkedStories={bookmarkedStories}
+      />
     ));
   const movieItems = movieReviews
     .slice(0, 4)
     .map(movie => <MovieItem key={movie.display_title} movie={movie} />);
   const nonfictionItems = nonfictionBooks
+    .slice(0, 10)
+    .map(book => <BookItem key={book.title} book={book} />);
+  const fictionItems = fictionBooks
     .slice(0, 10)
     .map(book => <BookItem key={book.title} book={book} />);
   return (
@@ -53,6 +65,10 @@ const Home = ({
         <h2 style={{ textAlign: 'center' }}>Best Sellers: Non-Fiction</h2>
         <BookWrapper>{nonfictionItems}</BookWrapper>
       </section>
+      <section className="fictionBooks">
+        <h2 style={{ textAlign: 'center' }}>Best Sellers: Fiction</h2>
+        <BookWrapper>{fictionItems}</BookWrapper>
+      </section>
     </div>
   );
 };
@@ -61,7 +77,10 @@ Home.propTypes = {
   windowWidth: PropTypes.number,
   popularStories: PropTypes.array.isRequired,
   movieReviews: PropTypes.array.isRequired,
-  nonfictionBooks: PropTypes.array.isRequired
+  nonfictionBooks: PropTypes.array.isRequired,
+  fictionBooks: PropTypes.array.isRequired,
+  handleBookmarkClick: PropTypes.func.isRequired,
+  bookmarkedStories: PropTypes.array.isRequired
 };
 
 export default Home;

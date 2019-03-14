@@ -1,16 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { hoursAgo } from '../helpers';
 
 const Story = styled.div`
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
+  grid-template-columns: 1.15fr 1fr;
   grid-template-areas:
     'author date'
     'title title'
     'abstract image'
-    'url image';
+    'links image';
   border-top: 1px lightgrey solid;
   border-bottom: 1px lightgrey solid;
   letter-spacing: 0.1px;
@@ -43,17 +45,31 @@ const Story = styled.div`
     font-size: 0.75em;
   }
 
-  a.url {
-    grid-area: url;
-    font-size: 0.7em;
-    color: grey;
-    text-decoration: none;
-    transition: all 0.3s;
+  div.links {
+    grid-area: links;
     align-self: end;
+    display: flex;
+    align-items: center;
+    padding: 0.35em 0.35em;
   }
-  a.url:hover {
+
+  div.links .icon {
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+
+  div.links a.url {
+    text-decoration: none;
+    color: black;
+    font-size: 0.7em;
+    padding-left: 1em;
+    transition: all 0.3s;
+  }
+
+  div.links a.url:hover {
     color: #2a78f7;
   }
+
   img {
     grid-area: image;
     display: block;
@@ -64,7 +80,13 @@ const Story = styled.div`
   }
 `;
 
-const StoryItem = ({ story, storyType }) => {
+const StoryItem = ({
+  story,
+  storyType,
+  handleBookmarkClick,
+  bookmarkedStories
+}) => {
+  // Format a date string as hours since curent time
   let dateStr = '';
   const numHours = hoursAgo(story.published_date);
   if (numHours > 24) {
@@ -73,6 +95,10 @@ const StoryItem = ({ story, storyType }) => {
   } else {
     dateStr = numHours > 1 ? `${numHours} hours ago` : '1 hour ago';
   }
+
+  // Determine whether this story exists in the bookmarked stories
+  // and color the bookmark icon as such
+  const inBookmarks = bookmarkedStories.find(item => item.url === story.url);
 
   return (
     <Story>
@@ -85,22 +111,31 @@ const StoryItem = ({ story, storyType }) => {
       ) : (
         <img src={story.media[0]['media-metadata'][0].url} alt="" />
       )}
-      {/* <img src={storyUrl} alt="" /> */}
-      <a
-        className="url"
-        href={story.url}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Read full story
-      </a>
+      <div className="links">
+        <FontAwesomeIcon
+          icon={faBookmark}
+          className="icon"
+          color={inBookmarks ? '#f4aa42' : 'grey'}
+          onClick={() => handleBookmarkClick(story)}
+        />
+        <a
+          className="url"
+          href={story.url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Read full story
+        </a>
+      </div>
     </Story>
   );
 };
 
 StoryItem.propTypes = {
   story: PropTypes.object.isRequired,
-  storyType: PropTypes.string.isRequired
+  storyType: PropTypes.string.isRequired,
+  handleBookmarkClick: PropTypes.func.isRequired,
+  bookmarkedStories: PropTypes.array.isRequired
 };
 
 export default StoryItem;
