@@ -7,7 +7,7 @@ import SideDrawer from './SideDrawer';
 import { sections } from '../SectionsArray';
 
 const StyledNav = styled.nav`
-  padding: 0;
+  padding: 0.25em 0;
   margin: 0.5em 0;
   border: 1px lightgrey solid;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
@@ -21,7 +21,7 @@ const StyledList = styled.ul`
   margin: 0;
   padding: 0;
   position: relative;
-  bottom: 14px;
+  bottom: 8px;
 `;
 
 const StyledItem = styled.li`

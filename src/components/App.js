@@ -5,6 +5,7 @@ import Header from './Header';
 import Footer from './Footer';
 import Home from './Home';
 import TopStories from './TopStories';
+import Bookmarks from './Bookmarks';
 import NotFound from './NotFound';
 
 class App extends React.Component {
@@ -43,7 +44,7 @@ class App extends React.Component {
     const response = await fetch(url);
     const json = await response.json();
     const popularStories = await json.results;
-    this.setState({ popularStories });
+    this.setState({ popularStories, isLoading: false });
   };
 
   fetchMovieReviews = async () => {
@@ -98,11 +99,22 @@ class App extends React.Component {
     });
   };
 
+  handleRemoveBookmark = story => {
+    this.setState(prevState => {
+      const bookmarkedStories = prevState.bookmarkedStories.filter(
+        item => item.url !== story.url
+      );
+      return {
+        bookmarkedStories
+      };
+    });
+  };
+
   render() {
     return (
       <Router>
         <div>
-          <Header />
+          <Header bookmarkedStories={this.state.bookmarkedStories} />
           <Switch>
             <Route
               exact
@@ -128,6 +140,17 @@ class App extends React.Component {
                   windowWidth={this.state.windowWidth}
                   handleBookmarkClick={this.handleBookmarkClick}
                   bookmarkedStories={this.state.bookmarkedStories}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/bookmarks/"
+              render={props => (
+                <Bookmarks
+                  {...props}
+                  bookmarkedStories={this.state.bookmarkedStories}
+                  handleRemoveBookmark={this.handleRemoveBookmark}
                 />
               )}
             />

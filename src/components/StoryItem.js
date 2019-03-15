@@ -54,15 +54,15 @@ const Story = styled.div`
   }
 
   div.links .icon {
-    font-size: 14px;
+    font-size: 16px;
     transition: color 0.2s;
   }
 
   div.links a.url {
     text-decoration: none;
-    color: black;
+    color: grey;
     font-size: 0.7em;
-    padding-left: 1em;
+    padding-left: 2em;
     transition: all 0.3s;
   }
 
