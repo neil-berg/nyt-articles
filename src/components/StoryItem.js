@@ -7,67 +7,57 @@ import { hoursAgo } from '../helpers';
 
 const Story = styled.div`
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
+  grid-template-columns: 1fr;
   grid-template-areas:
-    'author date'
-    'title title'
-    'abstract image'
-    'links image';
-  border-top: 1px lightgrey solid;
+    'header '
+    'image'
+    'byline '
+    'title '
+    'abstract';
   border-bottom: 1px lightgrey solid;
-  letter-spacing: 0.1px;
+  padding: 0 0.5em;
 
-  > p,
-  a {
-    margin: 0;
-    padding: 0.35em 0.35em;
-  }
-  p.byline {
-    grid-area: author;
-    font-size: 0.65em;
-    color: grey;
-    font-weight: bold;
-  }
-  p.title {
-    grid-area: title;
-    font-size: 0.75em;
-    color: black
-    font-weight: bold;
-  }
-  p.date {
-    grid-area: date;
-    font-size: 0.65em;
-    color: grey;
-    text-align: right;
-  }
-  p.abstract {
-    grid-area: abstract;
-    font-size: 0.75em;
-  }
-
-  div.links {
-    grid-area: links;
-    align-self: end;
+  .header {
+    grid-area: header;
+    align-self: start;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding: 0.35em 0.35em;
+    padding: 0.5em 0;
   }
 
-  div.links .icon {
-    font-size: 16px;
-    transition: color 0.2s;
+  .header .header__icon {
+    font-size: 1.25em;
+    cursor: pointer;
   }
 
-  div.links a.url {
-    text-decoration: none;
-    color: grey;
-    font-size: 0.7em;
-    padding-left: 2em;
-    transition: all 0.3s;
+  .header .header__date {
+    font-size: 0.75em;
+    color: #666;
   }
 
-  div.links a.url:hover {
-    color: #2a78f7;
+  .byline {
+    grid-area: byline;
+    color: #666;
+    font-size: 0.75em;
+    margin: 0;
+    padding-top: 0.25em;
+  }
+
+  .title {
+    grid-area: title;
+    font-weight: bold;
+    font-size: 1em;
+    margin: 0;
+    padding: 0.5em 0;
+  }
+
+  .abstract {
+    grid-area: abstract;
+    font-size: 0.875em;
+    margin: 0;
+    padding-bottom: 0.5em;
+    color: #666;
   }
 
   img {
@@ -75,8 +65,7 @@ const Story = styled.div`
     display: block;
     width: 100%;
     margin: 0;
-    padding: 0.25em 0em;
-    align-self: top;
+    align-self: start;
   }
 `;
 
@@ -102,31 +91,24 @@ const StoryItem = ({
 
   return (
     <Story>
-      <p className="byline">{story.byline.replace(/by/gi, '').trim()}</p>
-      <p className="date">{dateStr}</p>
-      <p className="title">{story.title}</p>
-      <p className="abstract">{story.abstract}</p>
-      {storyType === 'topStory' ? (
-        <img src={story.multimedia[1] ? story.multimedia[1].url : ''} alt="" />
-      ) : (
-        <img src={story.media[0]['media-metadata'][0].url} alt="" />
-      )}
-      <div className="links">
+      <div className="header">
         <FontAwesomeIcon
+          className="header__icon"
           icon={faBookmark}
-          className="icon"
           color={inBookmarks ? '#f4aa42' : 'grey'}
           onClick={() => handleBookmarkClick(story)}
         />
-        <a
-          className="url"
-          href={story.url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Read full story
-        </a>
+        <span className="header__date">{dateStr}</span>
       </div>
+      {storyType === 'topStory' ? (
+        <img src={story.multimedia[1] ? story.multimedia[1].url : ''} alt="" />
+      ) : (
+        <img src={story.media[0]['media-metadata'][1].url} alt="" />
+      )}
+      <p className="byline">{story.byline.replace(/by/gi, '').trim()}</p>
+
+      <p className="title">{story.title}</p>
+      <p className="abstract">{story.abstract}</p>
     </Story>
   );
 };

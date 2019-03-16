@@ -1,43 +1,54 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookmark, faBook } from '@fortawesome/free-solid-svg-icons';
 import { hoursAgo } from '../helpers';
 
 const Movie = styled.div`
   display: flex;
   flex-direction: column;
   border-bottom: 1px lightgrey solid;
-  letter-spacing: 0.1px;
+  padding: 0 0.5em;
 
   > p,
   a {
     margin: 0;
   }
 
-  .byline-date {
+  .byline {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
+    font-size: 0.75em;
   }
 
-  .byline-date p.byline {
-    font-size: 0.65em;
-    color: grey;
-    font-weight: bold;
+  .byline .byline__icon {
+    color: #666;
+    font-size: 1.5em;
+    cursor: pointer;
   }
-  .byline-date p.date {
-    font-size: 0.65em;
-    color: grey;
+
+  .byline p.byline__author {
+    color: #666;
   }
+
+  .byline p.byline__date {
+    color: #666;
+  }
+
   p.title {
     font-size: 1em;
     color: black
     font-weight: bold;
     text-align: center;
-    padding-bottom: 0.35em;
+    padding-bottom: 0.5em;
   }
+
   p.abstract {
-    font-size: 0.75em;
+    font-size: 0.875em;
+    padding-bottom: 0.5em;
   }
 
   a.url {
@@ -46,7 +57,7 @@ const Movie = styled.div`
     margin-top: auto;
     padding: 0.5em 0em;
     justify-self: flex-end;
-    color: grey;
+    color: #666;
     text-decoration: none;
     transition: all 0.3s;
     cursor: pointer;
@@ -90,19 +101,22 @@ const MovieItem = ({ movie }) => {
       <div className="imageContainer">
         <img src={movie.multimedia.src} alt="" />
       </div>
-      <div className="byline-date">
-        <p className="byline">{movie.byline.replace(/by/gi, '').trim()}</p>
-        <p className="date">{dateStr}</p>
+      <div className="byline">
+        <FontAwesomeIcon className="byline__icon" icon={faBookmark} />
+        <p className="byline__author">
+          {movie.byline.replace(/by/gi, '').trim()}
+        </p>
+        <p className="byline__date">{dateStr}</p>
       </div>
       <p className="abstract">{movie.summary_short}</p>
-      <a
+      {/* <a
         className="url"
         href={movie.url}
         target="_blank"
         rel="noopener noreferrer"
       >
         Read full review
-      </a>
+      </a> */}
     </Movie>
   );
 };

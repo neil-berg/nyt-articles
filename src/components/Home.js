@@ -54,11 +54,11 @@ const Home = ({
     <div>
       <TopStoriesNav windowWidth={windowWidth} />
       <section className="popular">
-        <h2 style={{ textAlign: 'center' }}>Most Viewed This Week</h2>
+        <h2 style={{ textAlign: 'center' }}>Top Stories This Week</h2>
         <ItemWrapper>{storyItems}</ItemWrapper>
       </section>
       <section className="movies">
-        <h2 style={{ textAlign: 'center' }}>Film Critic's Picks</h2>
+        <h2 style={{ textAlign: 'center' }}>Latest Film Reviews</h2>
         <ItemWrapper>{movieItems}</ItemWrapper>
       </section>
       <section className="nonfictionBooks">
