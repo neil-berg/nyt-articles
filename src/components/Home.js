@@ -27,8 +27,10 @@ const Home = ({
   movieReviews,
   nonfictionBooks,
   fictionBooks,
-  handleBookmarkClick,
-  bookmarks
+  handleStoryBookmarkClick,
+  handleMovieBookmarkClick,
+  storyBookmarks,
+  movieBookmarks
 }) => {
   const storyItems = popularStories
     .slice(0, 8)
@@ -37,8 +39,8 @@ const Home = ({
         key={story.title}
         story={story}
         storyType="mostPopular"
-        handleBookmarkClick={handleBookmarkClick}
-        bookmarks={bookmarks}
+        handleStoryBookmarkClick={handleStoryBookmarkClick}
+        storyBookmarks={storyBookmarks}
       />
     ));
   const movieItems = movieReviews
@@ -47,8 +49,8 @@ const Home = ({
       <MovieItem
         key={movie.display_title}
         movie={movie}
-        handleBookmarkClick={handleBookmarkClick}
-        bookmarks={bookmarks}
+        handleMovieBookmarkClick={handleMovieBookmarkClick}
+        movieBookmarks={movieBookmarks}
       />
     ));
   const nonfictionItems = nonfictionBooks

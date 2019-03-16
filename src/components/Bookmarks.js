@@ -55,13 +55,19 @@ const BookmarkStory = styled.div`
   }
 `;
 
-const Bookmarks = ({ bookmarkedStories, handleRemoveBookmark }) => {
-  const bookmarkList = bookmarkedStories.map(story => {
+const Bookmarks = ({
+  storyBookmarks,
+  movieBookmarks,
+  handleRemoveBookmark
+}) => {
+  const bookmarkList = [...storyBookmarks, ...movieBookmarks].map(bookmark => {
     return (
-      <BookmarkStory key={story.url}>
-        <a href={story.url}>{story.title}</a>
-        <p>{story.abstract}</p>
-        <div className="remove" onClick={() => handleRemoveBookmark(story)}>
+      <BookmarkStory key={bookmark.url || bookmark.link.url}>
+        <a href={bookmark.url || bookmark.link.url}>
+          {bookmark.title || bookmark.display_title}
+        </a>
+        <p>{bookmark.abstract || bookmark.summary_short}</p>
+        <div className="remove" onClick={() => handleRemoveBookmark(bookmark)}>
           <FontAwesomeIcon
             icon={faTrashAlt}
             size="lg"

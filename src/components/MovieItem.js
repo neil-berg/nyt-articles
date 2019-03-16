@@ -84,7 +84,7 @@ const Movie = styled.div`
 
 `;
 
-const MovieItem = ({ movie, handleBookmarkClick, bookmarks }) => {
+const MovieItem = ({ movie, handleMovieBookmarkClick, movieBookmarks }) => {
   let dateStr = '';
   const numHours = hoursAgo(movie.publication_date);
   if (numHours > 24) {
@@ -96,7 +96,9 @@ const MovieItem = ({ movie, handleBookmarkClick, bookmarks }) => {
 
   // Determine whether this movie exists in the bookmarked stories
   // and color the bookmark icon as such
-  const inBookmarks = bookmarks.find(item => item.url === movie.url);
+  const inBookmarks = movieBookmarks.find(
+    item => item.link.url === movie.link.url
+  );
 
   return (
     <Movie>
@@ -109,7 +111,7 @@ const MovieItem = ({ movie, handleBookmarkClick, bookmarks }) => {
           className="byline__icon"
           icon={faBookmark}
           color={inBookmarks ? '#f4aa42' : 'grey'}
-          onClick={() => handleBookmarkClick(movie)}
+          onClick={() => handleMovieBookmarkClick(movie)}
         />
         <p className="byline__author">
           {movie.byline.replace(/by/gi, '').trim()}

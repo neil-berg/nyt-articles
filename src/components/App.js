@@ -12,8 +12,9 @@ class App extends React.Component {
   state = {
     windowWidth: null,
     popularStories: [],
-    bookmarks: [],
     movieReviews: [],
+    storyBookmarks: [],
+    movieBookmarks: [],
     nonfictionBooks: [],
     fictionBooks: []
   };
@@ -77,40 +78,65 @@ class App extends React.Component {
     this.setState({ fictionBooks, isLoading: false });
   };
 
-  handleBookmarkClick = entry => {
+  handleStoryBookmarkClick = entry => {
     this.setState(prevState => {
       // Check to see if entry (via its URL) already exists
       // If so, remove it from the state (i.e. user unchecks bookmark) and turn icon color grey
       // If not, add it to the bookmarks and turn icon color blue
-      let bookmarks = prevState.bookmarks;
-      const entryExists = bookmarks.find(item => item.url === entry.url);
+      let storyBookmarks = prevState.storyBookmarks;
+      const entryExists = storyBookmarks.find(item => item.url === entry.url);
       if (entryExists) {
-        bookmarks = bookmarks.filter(item => item.url !== entry.url);
+        storyBookmarks = storyBookmarks.filter(item => item.url !== entry.url);
       } else {
-        bookmarks = [...bookmarks, entry];
+        storyBookmarks = [...storyBookmarks, entry];
       }
       return {
-        bookmarks
+        storyBookmarks
       };
     });
   };
 
-  handleRemoveBookmark = story => {
+  handleMovieBookmarkClick = entry => {
     this.setState(prevState => {
-      const bookmarks = prevState.bookmarks.filter(
-        item => item.url !== story.url
+      // Check to see if entry (via its URL) already exists
+      // If so, remove it from the state (i.e. user unchecks bookmark) and turn icon color grey
+      // If not, add it to the bookmarks and turn icon color blue
+      let movieBookmarks = prevState.movieBookmarks;
+      const entryExists = movieBookmarks.find(
+        item => item.link.url === entry.link.url
       );
+      if (entryExists) {
+        movieBookmarks = movieBookmarks.filter(
+          item => item.link.url !== entry.link.url
+        );
+      } else {
+        movieBookmarks = [...movieBookmarks, entry];
+      }
       return {
-        bookmarks
+        movieBookmarks
       };
     });
   };
+
+  // handleRemoveBookmark = story => {
+  //   this.setState(prevState => {
+  //     const bookmarks = prevState.bookmarks.filter(
+  //       item => item.url !== story.url
+  //     );
+  //     return {
+  //       bookmarks
+  //     };
+  //   });
+  // };
 
   render() {
     return (
       <Router>
         <div>
-          <Header bookmarks={this.state.bookmarks} />
+          <Header
+            storyBookmarks={this.state.storyBookmarks}
+            movieBookmarks={this.state.movieBookmarks}
+          />
           <Switch>
             <Route
               exact
@@ -123,8 +149,10 @@ class App extends React.Component {
                   movieReviews={this.state.movieReviews}
                   nonfictionBooks={this.state.nonfictionBooks}
                   fictionBooks={this.state.fictionBooks}
-                  handleBookmarkClick={this.handleBookmarkClick}
-                  bookmarks={this.state.bookmarks}
+                  handleStoryBookmarkClick={this.handleStoryBookmarkClick}
+                  handleMovieBookmarkClick={this.handleMovieBookmarkClick}
+                  storyBookmarks={this.state.storyBookmarks}
+                  movieBookmarks={this.state.movieBookmarks}
                 />
               )}
             />
@@ -145,8 +173,9 @@ class App extends React.Component {
               render={props => (
                 <Bookmarks
                   {...props}
-                  bookmarks={this.state.bookmarks}
                   handleRemoveBookmark={this.handleRemoveBookmark}
+                  storyBookmarks={this.state.storyBookmarks}
+                  movieBookmarks={this.state.movieBookmarks}
                 />
               )}
             />
