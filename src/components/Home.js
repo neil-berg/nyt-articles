@@ -28,7 +28,7 @@ const Home = ({
   nonfictionBooks,
   fictionBooks,
   handleBookmarkClick,
-  bookmarkedStories
+  bookmarks
 }) => {
   const storyItems = popularStories
     .slice(0, 8)
@@ -38,12 +38,19 @@ const Home = ({
         story={story}
         storyType="mostPopular"
         handleBookmarkClick={handleBookmarkClick}
-        bookmarkedStories={bookmarkedStories}
+        bookmarks={bookmarks}
       />
     ));
   const movieItems = movieReviews
     .slice(0, 4)
-    .map(movie => <MovieItem key={movie.display_title} movie={movie} />);
+    .map(movie => (
+      <MovieItem
+        key={movie.display_title}
+        movie={movie}
+        handleBookmarkClick={handleBookmarkClick}
+        bookmarks={bookmarks}
+      />
+    ));
   const nonfictionItems = nonfictionBooks
     .slice(0, 10)
     .map(book => <BookItem key={book.title} book={book} />);
@@ -80,7 +87,7 @@ Home.propTypes = {
   nonfictionBooks: PropTypes.array.isRequired,
   fictionBooks: PropTypes.array.isRequired,
   handleBookmarkClick: PropTypes.func.isRequired,
-  bookmarkedStories: PropTypes.array.isRequired
+  bookmarks: PropTypes.array.isRequired
 };
 
 export default Home;

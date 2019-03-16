@@ -12,7 +12,7 @@ class App extends React.Component {
   state = {
     windowWidth: null,
     popularStories: [],
-    bookmarkedStories: [],
+    bookmarks: [],
     movieReviews: [],
     nonfictionBooks: [],
     fictionBooks: []
@@ -77,35 +77,31 @@ class App extends React.Component {
     this.setState({ fictionBooks, isLoading: false });
   };
 
-  handleBookmarkClick = story => {
+  handleBookmarkClick = entry => {
     this.setState(prevState => {
-      // Check to see if story (via its URL) already exists
+      // Check to see if entry (via its URL) already exists
       // If so, remove it from the state (i.e. user unchecks bookmark) and turn icon color grey
       // If not, add it to the bookmarks and turn icon color blue
-      let bookmarkedStories = prevState.bookmarkedStories;
-      const storyExists = bookmarkedStories.find(
-        item => item.url === story.url
-      );
-      if (storyExists) {
-        bookmarkedStories = bookmarkedStories.filter(
-          item => item.url !== story.url
-        );
+      let bookmarks = prevState.bookmarks;
+      const entryExists = bookmarks.find(item => item.url === entry.url);
+      if (entryExists) {
+        bookmarks = bookmarks.filter(item => item.url !== entry.url);
       } else {
-        bookmarkedStories = [...bookmarkedStories, story];
+        bookmarks = [...bookmarks, entry];
       }
       return {
-        bookmarkedStories
+        bookmarks
       };
     });
   };
 
   handleRemoveBookmark = story => {
     this.setState(prevState => {
-      const bookmarkedStories = prevState.bookmarkedStories.filter(
+      const bookmarks = prevState.bookmarks.filter(
         item => item.url !== story.url
       );
       return {
-        bookmarkedStories
+        bookmarks
       };
     });
   };
@@ -114,7 +110,7 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-          <Header bookmarkedStories={this.state.bookmarkedStories} />
+          <Header bookmarks={this.state.bookmarks} />
           <Switch>
             <Route
               exact
@@ -128,7 +124,7 @@ class App extends React.Component {
                   nonfictionBooks={this.state.nonfictionBooks}
                   fictionBooks={this.state.fictionBooks}
                   handleBookmarkClick={this.handleBookmarkClick}
-                  bookmarkedStories={this.state.bookmarkedStories}
+                  bookmarks={this.state.bookmarks}
                 />
               )}
             />
@@ -139,7 +135,7 @@ class App extends React.Component {
                   {...props}
                   windowWidth={this.state.windowWidth}
                   handleBookmarkClick={this.handleBookmarkClick}
-                  bookmarkedStories={this.state.bookmarkedStories}
+                  bookmarks={this.state.bookmarks}
                 />
               )}
             />
@@ -149,7 +145,7 @@ class App extends React.Component {
               render={props => (
                 <Bookmarks
                   {...props}
-                  bookmarkedStories={this.state.bookmarkedStories}
+                  bookmarks={this.state.bookmarks}
                   handleRemoveBookmark={this.handleRemoveBookmark}
                 />
               )}

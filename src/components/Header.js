@@ -81,13 +81,13 @@ const SubTitle = styled.p`
   }
 `;
 
-const Header = ({ bookmarkedStories }) => (
+const Header = ({ bookmarks }) => (
   <Container>
     <div className="bookmark">
       <Link to="/bookmarks">
         <FontAwesomeIcon icon={faBookmark} className="bookmark__icon" />
-        <Count className="bookmark__count" length={bookmarkedStories.length}>
-          {bookmarkedStories.length}
+        <Count className="bookmark__count" length={bookmarks.length}>
+          {bookmarks.length}
         </Count>
       </Link>
     </div>

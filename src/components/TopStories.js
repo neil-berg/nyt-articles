@@ -106,7 +106,7 @@ class TopStories extends React.Component {
         story={story}
         storyType="topStory"
         handleBookmarkClick={this.props.handleBookmarkClick}
-        bookmarkedStories={this.props.bookmarkedStories}
+        bookmarks={this.props.bookmarks}
       />
     ));
     return (
@@ -132,7 +132,7 @@ TopStories.propTypes = {
   match: PropTypes.object.isRequired,
   windowWidth: PropTypes.number,
   handleBookmarkClick: PropTypes.func.isRequired,
-  bookmarkedStories: PropTypes.array.isRequired
+  bookmarks: PropTypes.array.isRequired
 };
 
 export default TopStories;

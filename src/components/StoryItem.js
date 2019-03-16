@@ -69,12 +69,7 @@ const Story = styled.div`
   }
 `;
 
-const StoryItem = ({
-  story,
-  storyType,
-  handleBookmarkClick,
-  bookmarkedStories
-}) => {
+const StoryItem = ({ story, storyType, handleBookmarkClick, bookmarks }) => {
   // Format a date string as hours since curent time
   let dateStr = '';
   const numHours = hoursAgo(story.published_date);
@@ -87,7 +82,8 @@ const StoryItem = ({
 
   // Determine whether this story exists in the bookmarked stories
   // and color the bookmark icon as such
-  const inBookmarks = bookmarkedStories.find(item => item.url === story.url);
+
+  const inBookmarks = bookmarks.find(item => item.url === story.url);
 
   return (
     <Story>
@@ -117,7 +113,7 @@ StoryItem.propTypes = {
   story: PropTypes.object.isRequired,
   storyType: PropTypes.string.isRequired,
   handleBookmarkClick: PropTypes.func.isRequired,
-  bookmarkedStories: PropTypes.array.isRequired
+  bookmarks: PropTypes.array.isRequired
 };
 
 export default StoryItem;

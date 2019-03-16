@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookmark, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { hoursAgo } from '../helpers';
 
 const Movie = styled.div`
@@ -25,7 +25,6 @@ const Movie = styled.div`
   }
 
   .byline .byline__icon {
-    color: #666;
     font-size: 1.5em;
     cursor: pointer;
   }
@@ -85,7 +84,7 @@ const Movie = styled.div`
 
 `;
 
-const MovieItem = ({ movie }) => {
+const MovieItem = ({ movie, handleBookmarkClick, bookmarks }) => {
   let dateStr = '';
   const numHours = hoursAgo(movie.publication_date);
   if (numHours > 24) {
@@ -95,6 +94,10 @@ const MovieItem = ({ movie }) => {
     dateStr = numHours > 1 ? `${numHours} hours ago` : '1 hour ago';
   }
 
+  // Determine whether this movie exists in the bookmarked stories
+  // and color the bookmark icon as such
+  const inBookmarks = bookmarks.find(item => item.url === movie.url);
+
   return (
     <Movie>
       <p className="title">{movie.display_title}</p>
@@ -102,7 +105,12 @@ const MovieItem = ({ movie }) => {
         <img src={movie.multimedia.src} alt="" />
       </div>
       <div className="byline">
-        <FontAwesomeIcon className="byline__icon" icon={faBookmark} />
+        <FontAwesomeIcon
+          className="byline__icon"
+          icon={faBookmark}
+          color={inBookmarks ? '#f4aa42' : 'grey'}
+          onClick={() => handleBookmarkClick(movie)}
+        />
         <p className="byline__author">
           {movie.byline.replace(/by/gi, '').trim()}
         </p>
