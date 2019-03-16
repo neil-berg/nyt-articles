@@ -40,6 +40,10 @@ const StyledItem = styled.li`
   a:hover {
     color: #2a78f7;
   }
+
+  @media (max-width: 400px) {
+    visibility: hidden;
+  }
 `;
 
 const BufferItem = styled.div`

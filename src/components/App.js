@@ -13,10 +13,9 @@ class App extends React.Component {
     windowWidth: null,
     popularStories: [],
     movieReviews: [],
-    storyBookmarks: [],
-    movieBookmarks: [],
     nonfictionBooks: [],
-    fictionBooks: []
+    fictionBooks: [],
+    bookmarks: []
   };
 
   componentDidMount() {
@@ -35,7 +34,7 @@ class App extends React.Component {
 
   handleResize = () => {
     const innerWidth = window.innerWidth;
-    this.setState(prevState => ({ windowWidth: innerWidth }));
+    this.setState(() => ({ windowWidth: innerWidth }));
   };
 
   fetchPopularStories = async () => {
@@ -78,65 +77,48 @@ class App extends React.Component {
     this.setState({ fictionBooks, isLoading: false });
   };
 
-  handleStoryBookmarkClick = entry => {
-    this.setState(prevState => {
-      // Check to see if entry (via its URL) already exists
-      // If so, remove it from the state (i.e. user unchecks bookmark) and turn icon color grey
-      // If not, add it to the bookmarks and turn icon color blue
-      let storyBookmarks = prevState.storyBookmarks;
-      const entryExists = storyBookmarks.find(item => item.url === entry.url);
-      if (entryExists) {
-        storyBookmarks = storyBookmarks.filter(item => item.url !== entry.url);
-      } else {
-        storyBookmarks = [...storyBookmarks, entry];
-      }
-      return {
-        storyBookmarks
-      };
-    });
-  };
+  handleBookmarkClick = article => {
+    // Format story or movie article into a unified bookmark object
+    const formattedArticle = {
+      title: article.title || article.headline,
+      abstract: article.abstract || article.summary_short,
+      url: article.url || article.link.url
+    };
 
-  handleMovieBookmarkClick = entry => {
+    // Bookmark checked: add article
+    // Bookmark unchecked: remove article
     this.setState(prevState => {
-      // Check to see if entry (via its URL) already exists
-      // If so, remove it from the state (i.e. user unchecks bookmark) and turn icon color grey
-      // If not, add it to the bookmarks and turn icon color blue
-      let movieBookmarks = prevState.movieBookmarks;
-      const entryExists = movieBookmarks.find(
-        item => item.link.url === entry.link.url
+      let bookmarks = prevState.bookmarks;
+      const articleExists = bookmarks.find(
+        item => item.url === formattedArticle.url
       );
-      if (entryExists) {
-        movieBookmarks = movieBookmarks.filter(
-          item => item.link.url !== entry.link.url
-        );
+      if (articleExists) {
+        bookmarks = bookmarks.filter(item => item.url !== formattedArticle.url);
       } else {
-        movieBookmarks = [...movieBookmarks, entry];
+        bookmarks = [...bookmarks, formattedArticle];
       }
       return {
-        movieBookmarks
+        bookmarks
       };
     });
   };
 
-  // handleRemoveBookmark = story => {
-  //   this.setState(prevState => {
-  //     const bookmarks = prevState.bookmarks.filter(
-  //       item => item.url !== story.url
-  //     );
-  //     return {
-  //       bookmarks
-  //     };
-  //   });
-  // };
+  handleRemoveBookmark = article => {
+    this.setState(prevState => {
+      const bookmarks = prevState.bookmarks.filter(
+        item => item.url !== article.url
+      );
+      return {
+        bookmarks
+      };
+    });
+  };
 
   render() {
     return (
       <Router>
         <div>
-          <Header
-            storyBookmarks={this.state.storyBookmarks}
-            movieBookmarks={this.state.movieBookmarks}
-          />
+          <Header bookmarks={this.state.bookmarks} />
           <Switch>
             <Route
               exact
@@ -149,10 +131,8 @@ class App extends React.Component {
                   movieReviews={this.state.movieReviews}
                   nonfictionBooks={this.state.nonfictionBooks}
                   fictionBooks={this.state.fictionBooks}
-                  handleStoryBookmarkClick={this.handleStoryBookmarkClick}
-                  handleMovieBookmarkClick={this.handleMovieBookmarkClick}
-                  storyBookmarks={this.state.storyBookmarks}
-                  movieBookmarks={this.state.movieBookmarks}
+                  handleBookmarkClick={this.handleBookmarkClick}
+                  bookmarks={this.state.bookmarks}
                 />
               )}
             />
@@ -173,9 +153,9 @@ class App extends React.Component {
               render={props => (
                 <Bookmarks
                   {...props}
+                  windowWidth={this.state.windowWidth}
                   handleRemoveBookmark={this.handleRemoveBookmark}
-                  storyBookmarks={this.state.storyBookmarks}
-                  movieBookmarks={this.state.movieBookmarks}
+                  bookmarks={this.state.bookmarks}
                 />
               )}
             />

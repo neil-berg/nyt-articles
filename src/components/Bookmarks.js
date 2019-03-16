@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
+import TopStoriesNav from './TopStoriesNav';
+
 const BookmarkSection = styled.section`
   display: grid;
   grid-template-columns: repeat(auto-fit, 300px);
@@ -15,10 +17,10 @@ const BookmarkSection = styled.section`
 const BookmarkStory = styled.div`
   display: flex;
   flex-direction: column;
-  border-top: 1px grey solid;
-  border-bottom: 1px grey solid;
+  border-top: 1px lightgrey solid;
+  border-bottom: 1px lightgrey solid;
 
-  a {
+  a.bookmark__link {
     text-decoration: none;
     color: black;
     font-weight: bold;
@@ -26,19 +28,21 @@ const BookmarkStory = styled.div`
     padding-top: 0.75em;
   }
 
-  a:hover {
+  a.bookmark__link:hover {
     color: #2a78f7;
   }
 
-  p {
-    font-size: 0.85em;
+  p.bookmark__abstract {
+    font-size: 0.875em;
+    color: #666;
   }
 
   .remove {
     margin-top: auto;
     padding-bottom: 0.5em;
     transition: color 0.3s;
-    color: grey;
+    color: #666;
+    cursor: pointer;
   }
 
   .remove:hover {
@@ -46,27 +50,23 @@ const BookmarkStory = styled.div`
   }
 
   .remove .remove__icon {
-    font-size: 20px;
+    font-size: 16px;
   }
 
   .remove span.remove__text {
     padding-left: 0.5em;
-    font-size: 0.8em;
+    font-size: 0.875em;
   }
 `;
 
-const Bookmarks = ({
-  storyBookmarks,
-  movieBookmarks,
-  handleRemoveBookmark
-}) => {
-  const bookmarkList = [...storyBookmarks, ...movieBookmarks].map(bookmark => {
+const Bookmarks = ({ windowWidth, bookmarks, handleRemoveBookmark }) => {
+  const bookmarkList = bookmarks.map(bookmark => {
     return (
-      <BookmarkStory key={bookmark.url || bookmark.link.url}>
-        <a href={bookmark.url || bookmark.link.url}>
-          {bookmark.title || bookmark.display_title}
+      <BookmarkStory key={bookmark.url}>
+        <a className="bookmark__link" href={bookmark.url}>
+          {bookmark.title}
         </a>
-        <p>{bookmark.abstract || bookmark.summary_short}</p>
+        <p className="bookmark__abstract">{bookmark.abstract}</p>
         <div className="remove" onClick={() => handleRemoveBookmark(bookmark)}>
           <FontAwesomeIcon
             icon={faTrashAlt}
@@ -80,6 +80,7 @@ const Bookmarks = ({
   });
   return (
     <div>
+      <TopStoriesNav windowWidth={windowWidth} />
       <h2 style={{ textAlign: 'center' }}>Bookmarks</h2>
       <BookmarkSection>{bookmarkList}</BookmarkSection>
     </div>
@@ -87,7 +88,8 @@ const Bookmarks = ({
 };
 
 Bookmarks.propTypes = {
-  bookmarkedStories: PropTypes.array.isRequired
+  bookmarkedStories: PropTypes.array.isRequired,
+  windowWidth: PropTypes.number.isRequired
 };
 
 export default Bookmarks;

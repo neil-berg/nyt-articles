@@ -48,8 +48,15 @@ const Story = styled.div`
     grid-area: title;
     font-weight: bold;
     font-size: 1em;
+    text-decoration: none;
+    color: black;
     margin: 0;
     padding: 0.5em 0;
+    transition: all 0.3s;
+  }
+
+  .title:hover {
+    color: #2a78f7;
   }
 
   .abstract {
@@ -69,12 +76,7 @@ const Story = styled.div`
   }
 `;
 
-const StoryItem = ({
-  story,
-  storyType,
-  handleStoryBookmarkClick,
-  storyBookmarks
-}) => {
+const StoryItem = ({ story, storyType, handleBookmarkClick, bookmarks }) => {
   // Format a date string as hours since curent time
   let dateStr = '';
   const numHours = hoursAgo(story.published_date);
@@ -87,7 +89,7 @@ const StoryItem = ({
 
   // Determine whether this story exists in the bookmarked stories
   // and color the bookmark icon as such
-  const inBookmarks = storyBookmarks.find(item => item.url === story.url);
+  const inBookmarks = bookmarks.find(item => item.url === story.url);
 
   return (
     <Story>
@@ -96,18 +98,25 @@ const StoryItem = ({
           className="header__icon"
           icon={faBookmark}
           color={inBookmarks ? '#f4aa42' : 'grey'}
-          onClick={() => handleStoryBookmarkClick(story)}
+          onClick={() => handleBookmarkClick(story)}
         />
         <span className="header__date">{dateStr}</span>
       </div>
       {storyType === 'topStory' ? (
-        <img src={story.multimedia[1] ? story.multimedia[1].url : ''} alt="" />
+        <img src={story.multimedia[3] ? story.multimedia[3].url : ''} alt="" />
       ) : (
         <img src={story.media[0]['media-metadata'][1].url} alt="" />
       )}
       <p className="byline">{story.byline.replace(/by/gi, '').trim()}</p>
 
-      <p className="title">{story.title}</p>
+      <a
+        className="title"
+        href={story.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {story.title}
+      </a>
       <p className="abstract">{story.abstract}</p>
     </Story>
   );
@@ -116,8 +125,8 @@ const StoryItem = ({
 StoryItem.propTypes = {
   story: PropTypes.object.isRequired,
   storyType: PropTypes.string.isRequired,
-  handleStoryBookmarkClick: PropTypes.func.isRequired,
-  storyBookmarks: PropTypes.array.isRequired
+  handleBookmarkClick: PropTypes.func.isRequired,
+  bookmarks: PropTypes.array.isRequired
 };
 
 export default StoryItem;

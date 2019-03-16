@@ -37,12 +37,18 @@ const Movie = styled.div`
     color: #666;
   }
 
-  p.title {
+  a.title {
     font-size: 1em;
+    text-decoration: none;
     color: black
     font-weight: bold;
     text-align: center;
     padding-bottom: 0.5em;
+    transition: all 0.3s;
+  }
+
+  a.title:hover {
+    color: #2a78f7;
   }
 
   p.abstract {
@@ -84,7 +90,7 @@ const Movie = styled.div`
 
 `;
 
-const MovieItem = ({ movie, handleMovieBookmarkClick, movieBookmarks }) => {
+const MovieItem = ({ movie, handleBookmarkClick, bookmarks }) => {
   let dateStr = '';
   const numHours = hoursAgo(movie.publication_date);
   if (numHours > 24) {
@@ -95,14 +101,19 @@ const MovieItem = ({ movie, handleMovieBookmarkClick, movieBookmarks }) => {
   }
 
   // Determine whether this movie exists in the bookmarked stories
-  // and color the bookmark icon as such
-  const inBookmarks = movieBookmarks.find(
-    item => item.link.url === movie.link.url
-  );
+  // and color the bookmark icon accordingly
+  const inBookmarks = bookmarks.find(item => item.url === movie.link.url);
 
   return (
     <Movie>
-      <p className="title">{movie.display_title}</p>
+      <a
+        className="title"
+        href={movie.link.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {movie.display_title}
+      </a>
       <div className="imageContainer">
         <img src={movie.multimedia.src} alt="" />
       </div>
@@ -111,7 +122,7 @@ const MovieItem = ({ movie, handleMovieBookmarkClick, movieBookmarks }) => {
           className="byline__icon"
           icon={faBookmark}
           color={inBookmarks ? '#f4aa42' : 'grey'}
-          onClick={() => handleMovieBookmarkClick(movie)}
+          onClick={() => handleBookmarkClick(movie)}
         />
         <p className="byline__author">
           {movie.byline.replace(/by/gi, '').trim()}
@@ -132,7 +143,9 @@ const MovieItem = ({ movie, handleMovieBookmarkClick, movieBookmarks }) => {
 };
 
 MovieItem.propTypes = {
-  movie: PropTypes.object.isRequired
+  movie: PropTypes.object.isRequired,
+  handleBookmarkClick: PropTypes.func.isRequired,
+  bookmarks: PropTypes.array.isRequired
 };
 
 export default MovieItem;
