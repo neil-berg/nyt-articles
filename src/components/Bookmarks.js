@@ -88,7 +88,7 @@ const Bookmarks = ({ windowWidth, bookmarks, handleRemoveBookmark }) => {
 };
 
 Bookmarks.propTypes = {
-  bookmarkedStories: PropTypes.array.isRequired,
+  bookmarks: PropTypes.array.isRequired,
   windowWidth: PropTypes.number.isRequired
 };
 

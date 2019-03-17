@@ -2,16 +2,19 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faFacebookF } from '@fortawesome/free-brands-svg-icons';
 import styled from 'styled-components';
+import firebase from 'firebase';
+import base, { firebaseApp } from '../base';
 
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px grey solid;
+  border: 1px lightgrey solid;
   border-radius: 3px;
   width: 300px;
-  height: 70vh;
+  height: 75vh;
   margin: 1em auto;
+  box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
 `;
 
 const Button = styled.button`
@@ -21,6 +24,7 @@ const Button = styled.button`
   border-radius: 4px;
   width: 250px;
   text-align: left;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 
   .text {
     padding-left: 1.5em;
@@ -30,11 +34,25 @@ const Button = styled.button`
 const FacebookButton = styled(Button)`
   background: #3b5998;
   color: #f7f7f7;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+
+  :hover {
+    background: #f7f7f7;
+    color: #3b5998;
+  }
 `;
 
 const GoogleButton = styled(Button)`
   background: #db4437;
   color: white;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+
+  :hover {
+    background: white;
+    color: #db4437;
+  }
 `;
 
 const LoginButton = styled(Button)`
@@ -56,24 +74,76 @@ const Input = styled.input`
 `;
 
 class Login extends React.Component {
+  state = {
+    email: null,
+    password: null,
+    uid: null
+  };
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.authHandler({ user });
+      }
+    });
+  }
+
+  authHandler = async authData => {
+    await base.post('user', {
+      data: authData.user.uid
+    });
+  };
+
+  authenticate = provider => {
+    const authProvider = new firebase.auth[`${provider}AuthProvider`]();
+    firebaseApp
+      .auth()
+      .signInWithPopup(authProvider)
+      .then(this.authHandler);
+  };
+
+  handleInputChange = e => {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({
+      [name]: value
+    });
+  };
+
   render() {
     return (
       <LoginContainer className="login">
         <h2>Log In</h2>
-        <p>Sign in to view the news!</p>
-        <FacebookButton className="facebook">
+        <p>Sign in using existing profiles</p>
+        <FacebookButton
+          className="facebook"
+          onClick={() => this.authenticate('Facebook')}
+        >
           <FontAwesomeIcon icon={faFacebookF} />
-          <span className="text">Sign in with Facebook</span>
+          <span className="text">Continue with Facebook</span>
         </FacebookButton>
-        <GoogleButton className="google">
+        <GoogleButton
+          className="google"
+          onClick={() => this.authenticate('Google')}
+        >
           <FontAwesomeIcon icon={faGoogle} />
-          <span className="text">Sign in with Google</span>
+          <span className="text">Continue with Google</span>
         </GoogleButton>
-        <hr />
-        <hr />
+
+        <p>Or enter email and password</p>
         <Form className="email-password">
-          <Input type="email" placeholder="Email" />
-          <Input type="password" placeholder="Password" />
+          <Input
+            name="email"
+            type="email"
+            placeholder="Email"
+            onChange={this.handleInputChange}
+          />
+          <Input
+            name="password"
+            type="password"
+            placeholder="Password"
+            onChange={this.handleInputChange}
+          />
         </Form>
         <LoginButton>Log In</LoginButton>
         <p>Don't have an account?</p>
