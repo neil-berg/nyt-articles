@@ -2,44 +2,69 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookmark, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-areas: 'userBookmark title button';
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0.25em 2em;
+
+  .userBookmark {
+    grid-area: userBookmark;
+    justify-self: left;
+    display: flex;
+    align-items: center;
+  }
+
+  .userBookmark .bookmark {
+    position: relative;
+  }
+
+  .userBookmark .bookmark a {
+    color: black;
+  }
+
+  .userBookmark .bookmark .bookmark__icon {
+    font-size: 36px;
+    color: #f4aa42;
+  }
 
   .title {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    grid-area: title;
+    justify-self: center;
   }
 
   .title a {
     text-decoration: none;
   }
 
-  .bookmark {
-    position: relative;
+  .button {
+    grid-area: button;
+    justify-self: right;
   }
 
-  .bookmark a {
-    color: black;
-  }
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'title title'
+      'userBookmark button';
 
-  .bookmark__icon {
-    font-size: 32px;
-    color: #f4aa42;
+    .userBookmark {
+      justify-self: center;
+    }
+
+    .button {
+      justify-self: center;
+    }
   }
 `;
 
 const Count = styled.span`
   position: absolute;
-  right: ${props => (props.length > 9 ? '4px' : '8px')};
-  top: 4px;
-  font-size: 0.85em;
+  right: ${props => (props.length > 9 ? '5px' : '9px')};
+  top: 5px;
+  font-size: 0.9em;
   font-weight: bold;
 `;
 const Title = styled.h1`
@@ -55,7 +80,7 @@ const Title = styled.h1`
   }
 
   @media (max-width: 400px) {
-    font-size: 1.75em;
+    font-size: 2.1em;
   }
 `;
 
@@ -66,7 +91,7 @@ const SubTitle = styled.p`
   color: grey;
 
   @media (max-width: 400px) {
-    font-size: 0.725em;
+    font-size: 0.9em;
   }
 
   a {
@@ -81,15 +106,49 @@ const SubTitle = styled.p`
   }
 `;
 
-const Header = ({ bookmarks }) => (
-  <Container>
-    <div className="bookmark">
-      <Link to="/bookmarks">
-        <FontAwesomeIcon icon={faBookmark} className="bookmark__icon" />
-        <Count className="bookmark__count" length={bookmarks.length}>
-          {bookmarks.length}
-        </Count>
-      </Link>
+const UserImage = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 0.25em 1em;
+`;
+
+const Button = styled.button`
+  background: black;
+  color: white;
+  padding: 0.75em;
+  margin: 0.25em 1em;
+  font-size: 0.75em;
+  border-radius: 4px;
+  text-align: center;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+
+  :hover {
+    background: white;
+    color: black;
+  }
+`;
+
+const Header = ({ bookmarks, user, logout }) => (
+  <Container user={user}>
+    <div className="userBookmark">
+      {user ? (
+        <UserImage className="userImage" src={user ? user.photoURL : ''} />
+      ) : null}
+      <div className="bookmark">
+        <Link to="/bookmarks">
+          <FontAwesomeIcon
+            icon={faBookmark}
+            className="bookmark__icon"
+            style={{ marginLeft: user ? '0px' : '1em' }}
+          />
+          <Count className="bookmark__count" length={bookmarks.length}>
+            {bookmarks.length}
+          </Count>
+        </Link>
+      </div>
     </div>
 
     <div className="title">
@@ -107,7 +166,16 @@ const Header = ({ bookmarks }) => (
         </a>
       </SubTitle>
     </div>
-    <FontAwesomeIcon icon={faSignOutAlt} size="2x" />
+
+    <div className="button">
+      {!user ? (
+        <Link to="/login">
+          <Button>Log In</Button>
+        </Link>
+      ) : (
+        <Button onClick={logout}>Log Out</Button>
+      )}
+    </div>
   </Container>
 );
 

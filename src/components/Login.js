@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faFacebookF } from '@fortawesome/free-brands-svg-icons';
 import styled from 'styled-components';
@@ -74,12 +75,6 @@ const Input = styled.input`
 `;
 
 class Login extends React.Component {
-  state = {
-    email: null,
-    password: null,
-    uid: null
-  };
-
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -92,6 +87,12 @@ class Login extends React.Component {
     await base.post('user', {
       data: authData.user.uid
     });
+
+    // Pass the user info up to App-level state
+    this.props.retrieveUserInfo(authData.user);
+
+    // Redirect to the home page after signin
+    return <Redirect push to="/home" />;
   };
 
   authenticate = provider => {
@@ -136,12 +137,14 @@ class Login extends React.Component {
             name="email"
             type="email"
             placeholder="Email"
+            autocomplete="on"
             onChange={this.handleInputChange}
           />
           <Input
             name="password"
             type="password"
             placeholder="Password"
+            autoComplete="off"
             onChange={this.handleInputChange}
           />
         </Form>

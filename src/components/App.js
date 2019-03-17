@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import firebase from 'firebase';
 
 import Login from './Login';
 import Header from './Header';
@@ -12,6 +13,7 @@ import base from '../base';
 
 class App extends React.Component {
   state = {
+    user: null,
     windowWidth: null,
     popularStories: [],
     movieReviews: [],
@@ -55,6 +57,12 @@ class App extends React.Component {
   componentWillUnmount() {
     base.removeBinding(this.ref);
   }
+
+  retrieveUserInfo = user => {
+    this.setState({
+      user
+    });
+  };
 
   handleResize = () => {
     const innerWidth = window.innerWidth;
@@ -138,13 +146,30 @@ class App extends React.Component {
     });
   };
 
+  logout = async () => {
+    await firebase.auth().signOut();
+    this.setState({
+      user: null
+    });
+  };
+
   render() {
     return (
       <Router>
         <div>
-          <Header bookmarks={this.state.bookmarks} />
+          <Header
+            bookmarks={this.state.bookmarks}
+            user={this.state.user}
+            logout={this.logout}
+          />
           <Switch>
-            <Route exact path="/login" component={Login} />
+            <Route
+              exact
+              path="/login"
+              render={props => (
+                <Login {...props} retrieveUserInfo={this.retrieveUserInfo} />
+              )}
+            />
             <Route
               exact
               path="/home"
