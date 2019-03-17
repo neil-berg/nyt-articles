@@ -8,6 +8,7 @@ import Home from './Home';
 import TopStories from './TopStories';
 import Bookmarks from './Bookmarks';
 import NotFound from './NotFound';
+import base from '../base';
 
 class App extends React.Component {
   state = {
@@ -20,6 +21,13 @@ class App extends React.Component {
   };
 
   componentDidMount() {
+    // Populate bookmarks from local storage if any exist
+    const localStorageRef = localStorage.getItem('bookmarks');
+    if (localStorageRef) {
+      this.setState({ bookmarks: JSON.parse(localStorageRef) });
+    }
+
+    // Adjust story nav on window width and fetch all data
     const innerWidth = window.innerWidth;
     this.setState({ windowWidth: innerWidth });
     window.addEventListener('resize', this.handleResize);
@@ -27,10 +35,25 @@ class App extends React.Component {
     this.fetchMovieReviews();
     this.fetchNonfictionBooks();
     this.fetchFictionBooks();
+
+    // Sync bookmarks in state with firebase
+    this.ref = base.syncState('bookmarks', {
+      context: this,
+      state: 'bookmarks',
+      asArray: true
+    });
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem('bookmarks', JSON.stringify(this.state.bookmarks));
   }
 
   componentWillMount() {
     window.addEventListener('resize', this.handleResize);
+  }
+
+  componentWillUnmount() {
+    base.removeBinding(this.ref);
   }
 
   handleResize = () => {
