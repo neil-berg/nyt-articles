@@ -39,11 +39,13 @@ class App extends React.Component {
     this.fetchFictionBooks();
 
     // Sync bookmarks in state with firebase
-    this.ref = base.syncState('bookmarks', {
-      context: this,
-      state: 'bookmarks',
-      asArray: true
-    });
+    // if (this.state.user) {
+    //   this.ref = base.syncState(`${this.state.user.uid}/bookmarks`, {
+    //     context: this,
+    //     state: 'bookmarks',
+    //     asArray: true
+    //   });
+    // }
   }
 
   componentDidUpdate() {
@@ -167,12 +169,16 @@ class App extends React.Component {
               exact
               path="/login"
               render={props => (
-                <Login {...props} retrieveUserInfo={this.retrieveUserInfo} />
+                <Login
+                  {...props}
+                  retrieveUserInfo={this.retrieveUserInfo}
+                  bookmarks={this.state.bookmarks}
+                />
               )}
             />
             <Route
               exact
-              path="/home"
+              path="/"
               render={props => (
                 <Home
                   {...props}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookmark, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
   display: grid;
@@ -142,7 +142,7 @@ const Header = ({ bookmarks, user, logout }) => (
           <FontAwesomeIcon
             icon={faBookmark}
             className="bookmark__icon"
-            style={{ marginLeft: user ? '0px' : '1em' }}
+            style={{ marginLeft: !user ? '1em' : '0' }}
           />
           <Count className="bookmark__count" length={bookmarks.length}>
             {bookmarks.length}
@@ -152,7 +152,7 @@ const Header = ({ bookmarks, user, logout }) => (
     </div>
 
     <div className="title">
-      <Link to="/home">
+      <Link to="/">
         <Title>News Flash</Title>
       </Link>
       <SubTitle>

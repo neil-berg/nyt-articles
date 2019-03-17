@@ -1,7 +1,11 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle, faFacebookF } from '@fortawesome/free-brands-svg-icons';
+import {
+  faGoogle,
+  faFacebookF,
+  faTwitter,
+  faGithub
+} from '@fortawesome/free-brands-svg-icons';
 import styled from 'styled-components';
 import firebase from 'firebase';
 import base, { firebaseApp } from '../base';
@@ -26,6 +30,8 @@ const Button = styled.button`
   width: 250px;
   text-align: left;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease-out;
 
   .text {
     padding-left: 1.5em;
@@ -35,8 +41,6 @@ const Button = styled.button`
 const FacebookButton = styled(Button)`
   background: #3b5998;
   color: #f7f7f7;
-  cursor: pointer;
-  transition: all 0.3s ease-out;
 
   :hover {
     background: #f7f7f7;
@@ -47,8 +51,6 @@ const FacebookButton = styled(Button)`
 const GoogleButton = styled(Button)`
   background: #db4437;
   color: white;
-  cursor: pointer;
-  transition: all 0.3s ease-out;
 
   :hover {
     background: white;
@@ -56,22 +58,24 @@ const GoogleButton = styled(Button)`
   }
 `;
 
-const LoginButton = styled(Button)`
-  background: dodgerblue;
+const TwitterButton = styled(Button)`
+  background: #1da1f2;
   color: white;
-  text-align: center;
+
+  :hover {
+    background: white;
+    color: #1da1f2;
+  }
 `;
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
+const GithubButton = styled(Button)`
+  background: #24292e;
+  color: white;
 
-const Input = styled.input`
-  width: 250px;
-  padding: 0.75em;
-  font-size: 1em;
-  margin: 0.25em 0;
+  :hover {
+    background: white;
+    color: #24292e;
+  }
 `;
 
 class Login extends React.Component {
@@ -84,15 +88,20 @@ class Login extends React.Component {
   }
 
   authHandler = async authData => {
-    await base.post('user', {
-      data: authData.user.uid
+    await base.post(`users/${authData.user.uid}/name`, {
+      data: authData.user.displayName
     });
+
+    // Note: Email is not always returned by provider
+    // await base.post(`users/${authData.user.uid}/email`, {
+    //   data: authData.user.email
+    // });
 
     // Pass the user info up to App-level state
     this.props.retrieveUserInfo(authData.user);
 
-    // Redirect to the home page after signin
-    return <Redirect push to="/home" />;
+    // Redirect to Home page
+    this.props.history.push('/');
   };
 
   authenticate = provider => {
@@ -103,54 +112,27 @@ class Login extends React.Component {
       .then(this.authHandler);
   };
 
-  handleInputChange = e => {
-    const name = e.target.name;
-    const value = e.target.value;
-    this.setState({
-      [name]: value
-    });
-  };
-
   render() {
     return (
       <LoginContainer className="login">
         <h2>Log In</h2>
         <p>Sign in using existing profiles</p>
-        <FacebookButton
-          className="facebook"
-          onClick={() => this.authenticate('Facebook')}
-        >
+        <FacebookButton onClick={() => this.authenticate('Facebook')}>
           <FontAwesomeIcon icon={faFacebookF} />
           <span className="text">Continue with Facebook</span>
         </FacebookButton>
-        <GoogleButton
-          className="google"
-          onClick={() => this.authenticate('Google')}
-        >
+        <GoogleButton onClick={() => this.authenticate('Google')}>
           <FontAwesomeIcon icon={faGoogle} />
           <span className="text">Continue with Google</span>
         </GoogleButton>
-
-        <p>Or enter email and password</p>
-        <Form className="email-password">
-          <Input
-            name="email"
-            type="email"
-            placeholder="Email"
-            autocomplete="on"
-            onChange={this.handleInputChange}
-          />
-          <Input
-            name="password"
-            type="password"
-            placeholder="Password"
-            autoComplete="off"
-            onChange={this.handleInputChange}
-          />
-        </Form>
-        <LoginButton>Log In</LoginButton>
-        <p>Don't have an account?</p>
-        <a href="">Sign up now</a>
+        <TwitterButton onClick={() => this.authenticate('Twitter')}>
+          <FontAwesomeIcon icon={faTwitter} />
+          <span className="text">Continue with Twitter</span>
+        </TwitterButton>
+        <GithubButton onClick={() => this.authenticate('Github')}>
+          <FontAwesomeIcon icon={faGithub} />
+          <span className="text">Continue with Github</span>
+        </GithubButton>
       </LoginContainer>
     );
   }
