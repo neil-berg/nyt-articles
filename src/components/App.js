@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import Login from './Login';
 import Header from './Header';
 import Footer from './Footer';
 import Home from './Home';
@@ -120,9 +121,10 @@ class App extends React.Component {
         <div>
           <Header bookmarks={this.state.bookmarks} />
           <Switch>
+            <Route exact path="/login" component={Login} />
             <Route
               exact
-              path="/"
+              path="/home"
               render={props => (
                 <Home
                   {...props}

@@ -60,7 +60,7 @@ const Title = styled.h1`
 `;
 
 const SubTitle = styled.p`
-  font-family: Merriweather, sans-serif;
+  font-family: 'Noto Serif', serif;
   font-size: 1em;
   margin: 0;
   color: grey;
@@ -93,7 +93,7 @@ const Header = ({ bookmarks }) => (
     </div>
 
     <div className="title">
-      <Link to="/">
+      <Link to="/home">
         <Title>News Flash</Title>
       </Link>
       <SubTitle>
