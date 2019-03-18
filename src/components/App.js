@@ -23,10 +23,14 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    // Populate bookmarks from local storage if any exist
-    const localStorageRef = localStorage.getItem('bookmarks');
-    if (localStorageRef) {
-      this.setState({ bookmarks: JSON.parse(localStorageRef) });
+    // Populate user and bookmarks from local storage if any exist
+    const lsBookmarks = localStorage.getItem('nf-bookmarks');
+    const lsUser = localStorage.getItem('nf-user');
+    if (lsBookmarks) {
+      this.setState({ bookmarks: JSON.parse(lsBookmarks) });
+    }
+    if (lsUser) {
+      this.setState({ user: JSON.parse(lsUser) });
     }
 
     // Adjust story nav on window width and fetch all data
@@ -38,6 +42,7 @@ class App extends React.Component {
     this.fetchNonfictionBooks();
     this.fetchFictionBooks();
 
+    // TODO: after signin, sync bookmarks to user in firebase
     // Sync bookmarks in state with firebase
     // if (this.state.user) {
     //   this.ref = base.syncState(`${this.state.user.uid}/bookmarks`, {
@@ -49,7 +54,7 @@ class App extends React.Component {
   }
 
   componentDidUpdate() {
-    localStorage.setItem('bookmarks', JSON.stringify(this.state.bookmarks));
+    localStorage.setItem('nf-bookmarks', JSON.stringify(this.state.bookmarks));
   }
 
   componentWillMount() {
@@ -153,6 +158,7 @@ class App extends React.Component {
     this.setState({
       user: null
     });
+    localStorage.setItem('nf-user', null);
   };
 
   render() {

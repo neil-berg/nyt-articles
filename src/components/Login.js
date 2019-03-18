@@ -97,6 +97,9 @@ class Login extends React.Component {
     //   data: authData.user.email
     // });
 
+    // Store the user in local storage for refresh persistence
+    localStorage.setItem('nf-user', JSON.stringify(authData.user));
+
     // Pass the user info up to App-level state
     this.props.retrieveUserInfo(authData.user);
 
