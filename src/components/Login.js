@@ -92,11 +92,6 @@ class Login extends React.Component {
       data: authData.user.displayName
     });
 
-    // Note: Email is not always returned by provider
-    // await base.post(`users/${authData.user.uid}/email`, {
-    //   data: authData.user.email
-    // });
-
     // Store the user in local storage for refresh persistence
     localStorage.setItem('nf-user', JSON.stringify(authData.user));
 

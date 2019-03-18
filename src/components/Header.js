@@ -67,6 +67,7 @@ const Count = styled.span`
   font-size: 0.9em;
   font-weight: bold;
 `;
+
 const Title = styled.h1`
   font-family: 'Bungee Shade', cursive;
   font-size: 2.4em;

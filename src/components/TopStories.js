@@ -26,19 +26,20 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.button`
-  padding: 0.5em 1em;
-  margin: 1em 0;
-  border-radius: 5px;
-  background: #3c3c3c;
+  background: black;
   color: white;
-  font-size: 1em;
-  font-weight: 200;
+  padding: 0.75em;
+  margin: 1em 1em;
+  font-size: 0.75em;
+  border-radius: 4px;
+  text-align: center;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s;
-  :hover,
-  :focus {
-    background: #2a2a2a;
+  transition: all 0.3s ease-out;
+
+  :hover {
+    background: white;
+    color: black;
   }
 `;
 
@@ -84,12 +85,6 @@ class TopStories extends React.Component {
 
     // Load stories in state, stop spinner, and show stories
     this.setState({ stories, moreStories, isLoading: false });
-
-    // Retain user selection for local persistence
-    localStorage.setItem(
-      'nytdata',
-      JSON.stringify({ section: this.state.section })
-    );
   };
 
   showMoreStories = () => {

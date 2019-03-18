@@ -62,7 +62,7 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
-    base.removeBinding(this.ref);
+    //base.removeBinding(this.ref);
   }
 
   retrieveUserInfo = user => {
@@ -158,7 +158,6 @@ class App extends React.Component {
     this.setState({
       user: null
     });
-    localStorage.setItem('nf-user', null);
   };
 
   render() {
