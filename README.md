@@ -1,68 +1,33 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# News Flash
 
-## Available Scripts
+A progressive web app for searching New York Times top stories, movie reviews, and book reviews written in JavaScript.
 
-In the project directory, you can run:
+### [View the app](https://news-flash.netlify.com/)
 
-### `npm start`
+### [Read blog post](https://neilberg.dev/blog/2019-04-19-news-flash)
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Motivation
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+I read the New York Times online constantly, it serves worldclass journalism and excellent short-form writing all day long. They also have a generous team of developers who maintain a public and data-rich API.
 
-### `npm test`
+Looking for a way to sharpen my React knowledge while maintaining a daily dose of NYT articles, I decided to create a stripped down news site sourcing all content from the NYT API.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features
 
-### `npm run build`
+* [NYT Developer APIs](https://developer.nytimes.com/) (Most Popular API, Top Stories API, Books API, Movies API)
+* React.js front-end
+* Firebase data storage
+* OAuth2 for user authentication
+* Styled-components for CSS/animations
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Hosting
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+* Netlify for hosting and continous deployment 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Issues
 
-### `npm run eject`
+Spot any issues or have ideas for improving News Flash? I'd love to hear them! Please file an issue and/or open a PR.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Author
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Neil Berg. Email any questions/comments to: neil@neilberg.dev
