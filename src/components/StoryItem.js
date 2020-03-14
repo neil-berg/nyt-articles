@@ -77,6 +77,9 @@ const Story = styled.div`
 `;
 
 const StoryItem = ({ story, storyType, handleBookmarkClick, bookmarks }) => {
+
+  console.log(story)
+
   // Format a date string as hours since curent time
   let dateStr = '';
   const numHours = hoursAgo(story.published_date);
@@ -102,12 +105,23 @@ const StoryItem = ({ story, storyType, handleBookmarkClick, bookmarks }) => {
         />
         <span className="header__date">{dateStr}</span>
       </div>
-      {storyType === 'topStory' ? (
-        <img src={story.multimedia[3] ? story.multimedia[3].url : ''} alt="" />
-      ) : (
-        <img src={story.media[0]['media-metadata'][1].url} alt="" />
-      )}
-      <p className="byline">{story.byline.replace(/by/gi, '').trim()}</p>
+      {story.multimedia
+        && !story.media
+        && story.multimedia[3]
+        && story.multimedia[3].url
+        && <img src={story.multimedia[3].url} alt="" />
+      }
+      {!story.multimedia
+        && story.media
+        && story.media[0]
+        && story.media[0]['media-metadata']
+        && story.media[0]['media-metadata'][1]
+        && story.media[0]['media-metadata'][1].url
+        ? <img src={story.media[0]['media-metadata'][1].url} alt="" />
+        : <img src={''} alt='' height='189' width='284' />
+      }
+
+      <p className="byline">{story.byline ? story.byline.replace(/by/gi, '').trim() : ''}</p>
 
       <a
         className="title"
